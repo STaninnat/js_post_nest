@@ -1,8 +1,8 @@
 /**
- * Send error response with status code and message
+ * Send an error response with a specific status code and message
  * @param {Object} res - Response object of Express
  * @param {number} status - HTTP status code
- * @param {Object} message - The error message to send
+ * @param {Object} message - Error message to include in the response
  */
 function respondWithError(res, status, message) {
     if (status > 499) {
@@ -20,7 +20,7 @@ function respondWithError(res, status, message) {
  * Send JSON response with status code
  * @param {Object} res - Response object of Express
  * @param {number} status - HTTP status code
- * @param {Object} payload - The data to be sent is JSON
+ * @param {Object} payload - Data to include in the JSON response
  */
 function respondWithJSON(res, status, payload) {
     try {

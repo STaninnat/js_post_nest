@@ -80,13 +80,17 @@ async function handlerUserCreate(req, res) {
         res.cookie('access_token', jwtToken, {
             httpOnly: true,
             secure: true,
-            expires: jwtExpiresAt
+            path: '/',
+            expires: jwtExpiresAt,
+            sameSite: 'strict'
         });
 
         res.cookie('refresh_token', refreshToken, { 
             httpOnly: true, 
-            secure: true, 
-            expires: refreshTokenExpiresAt 
+            secure: true,
+            path: '/',
+            expires: refreshTokenExpiresAt,
+            sameSite: 'strict'
         });
 
         return respondWithJSON(res, 201, { message: "User created successfully" });
