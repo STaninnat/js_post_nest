@@ -1,13 +1,12 @@
-require('dotenv').config({ path: '../.env' });
+require("dotenv").config({ path: "../.env" });
 
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 
 module.exports = {
-
   development: {
-    client: 'pg',
+    client: "pg",
     connection: {
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
@@ -16,10 +15,10 @@ module.exports = {
       password: process.env.DB_PASSWORD,
     },
     migrations: {
-      directory: './schema'
+      directory: "./schema",
     },
     seeds: {
-      directory: './seeds',
+      directory: "./seeds",
     },
   },
 };
