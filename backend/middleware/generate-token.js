@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const dayjs = require("dayjs");
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
@@ -16,7 +16,7 @@ function isValidUserName(username) {
 async function hashAPIKey() {
   const apiKey = generateRandomSHA256HASH();
   const hashedApiKey = await bcrypt.hash(apiKey, 10);
-  return { apiKey, hashedApiKey };
+  return { hashedApiKey };
 }
 
 function generateRandomSHA256HASH() {

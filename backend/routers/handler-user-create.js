@@ -1,4 +1,3 @@
-require("dotenv").config({ path: "../.env" });
 const dayjs = require("dayjs");
 const bcrypt = require("bcrypt");
 const express = require("express");
@@ -6,7 +5,7 @@ const { v4: uuidv4, validate } = require("uuid");
 
 const db = require("../database/knex-instance");
 const queriesUsers = require("../database/helper/users");
-const queriesUsersKey = require("../database/helper/users_key");
+const queriesUsersKey = require("../database/helper/users-key");
 const {
   respondWithJSON,
   respondWithError,
@@ -48,7 +47,7 @@ async function handlerUserCreate(req, res) {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const { apiKey, hashedApiKey } = await hashAPIKey();
+    const { hashedApiKey } = await hashAPIKey();
 
     const apiKeyExpiresAt = dayjs().add(30, "day").toDate();
 
@@ -68,21 +67,21 @@ async function handlerUserCreate(req, res) {
       return respondWithError(res, 404, "User not found");
     }
 
-    const userIDString = user.id;
-    if (!validate(userIDString)) {
+    const userID = user.id;
+    if (!validate(userID)) {
       return respondWithError(res, 500, "invalid user ID");
     }
 
     const jwtExpiresAt = dayjs().add(15, "minute").toDate();
     const jwtToken = generateJWTToken(
-      { id: userIDString, apiKey: hashedApiKey },
+      { id: userID, api_key: hashedApiKey },
       jwtExpiresAt,
       "jwtToken"
     );
 
     const refreshTokenExpiresAt = dayjs().add(30, "day").toDate();
     const refreshToken = generateJWTToken(
-      { id: userIDString, apiKey: hashedApiKey },
+      { id: userID, api_key: hashedApiKey },
       refreshTokenExpiresAt,
       "refreshToken"
     );
@@ -94,7 +93,7 @@ async function handlerUserCreate(req, res) {
       accessTokenExpiresAt: jwtExpiresAt,
       refreshToken,
       refreshTokenExpiresAt,
-      userID: userIDString,
+      userID,
     });
 
     res.cookie("access_token", jwtToken, {

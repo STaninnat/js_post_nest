@@ -12,19 +12,21 @@ function middlewareAuth(db, jwtSecret) {
 
     try {
       const claims = jwt.verify(token, jwtSecret);
-      const user = await queriesUsers.getUserByID(db, claims.userID);
+      if (!claims || !claims.id) {
+        return respondWithError(res, 401, "invalid token claims");
+      }
 
+      const user = await queriesUsers.getUserByID(db, claims.id);
       if (!user) {
         return respondWithError(res, 500, "couldn't get user");
       }
       if (isApiKeyExpired(user)) {
         return respondWithError(res, 401, "api key expired");
       }
-
       req.user = user;
       next();
     } catch (error) {
-      console.error("token valication error: ", error);
+      console.error("token validation error: ", error);
       if (error.name === "TokenExpiredError") {
         return respondWithError(res, 401, "token expired");
       }
