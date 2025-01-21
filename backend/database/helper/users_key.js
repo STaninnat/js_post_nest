@@ -12,19 +12,25 @@
  * @returns {Promise<void>} - Resolves when the record is successfully inserted
  */
 async function createUserRFKey(db, user_key) {
-    const { id, createdAt, updatedAt, accessTokenExpiresAt,
-        refreshToken, refreshTokenExpiresAt, userID
-     } = user_key;
+  const {
+    id,
+    createdAt,
+    updatedAt,
+    accessTokenExpiresAt,
+    refreshToken,
+    refreshTokenExpiresAt,
+    userID,
+  } = user_key;
 
-     await db('users_key').insert({
-        id,
-        created_at: createdAt,
-        updated_at: updatedAt,
-        access_token_expires_at: accessTokenExpiresAt,
-        refresh_token: refreshToken,
-        refresh_token_expires_at: refreshTokenExpiresAt,
-        user_id: userID
-     });
+  await db("users_key").insert({
+    id,
+    created_at: createdAt,
+    updated_at: updatedAt,
+    access_token_expires_at: accessTokenExpiresAt,
+    refresh_token: refreshToken,
+    refresh_token_expires_at: refreshTokenExpiresAt,
+    user_id: userID,
+  });
 }
 
 /**
@@ -39,16 +45,20 @@ async function createUserRFKey(db, user_key) {
  * @returns {Promise<void>} - Resolves when the record is successfully updated
  */
 async function updateUserRFKey(db, user_key) {
-    const { updatedAt, accessTokenExpiresAt, refreshToken, refreshTokenExpiresAt, userID } = user_key;
+  const {
+    updatedAt,
+    accessTokenExpiresAt,
+    refreshToken,
+    refreshTokenExpiresAt,
+    userID,
+  } = user_key;
 
-    await db('users_key')
-        .where({ user_id: userID })
-        .update({
-            updated_at: updatedAt,
-            access_token_expires_at: accessTokenExpiresAt,
-            refresh_token: refreshToken,
-            refresh_token_expires_at: refreshTokenExpiresAt
-        });
+  await db("users_key").where({ user_id: userID }).update({
+    updated_at: updatedAt,
+    access_token_expires_at: accessTokenExpiresAt,
+    refresh_token: refreshToken,
+    refresh_token_expires_at: refreshTokenExpiresAt,
+  });
 }
 
 /**
@@ -58,7 +68,7 @@ async function updateUserRFKey(db, user_key) {
  * @returns {Promise<Object|null>} - Resolves with the user key record or null if not found
  */
 async function getRFKeyByUserID(db, userID) {
-    return await db('users_key').where({ user_id: userID }).first();
+  return await db("users_key").where({ user_id: userID }).first();
 }
 
 /**
@@ -68,12 +78,12 @@ async function getRFKeyByUserID(db, userID) {
  * @returns {Promise<Object|null>} - Resolves with the user record or null if not found
  */
 async function getUserByRFKey(db, refreshToken) {
-    return await db('users_key').where({ refresh_token: refreshToken }).first();
+  return await db("users_key").where({ refresh_token: refreshToken }).first();
 }
 
 module.exports = {
-    createUserRFKey,
-    updateUserRFKey,
-    getRFKeyByUserID,
-    getUserByRFKey
-}
+  createUserRFKey,
+  updateUserRFKey,
+  getRFKeyByUserID,
+  getUserByRFKey,
+};

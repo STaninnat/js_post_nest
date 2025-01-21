@@ -13,20 +13,27 @@
  * @returns {Promise<void>} - Resolves when the record is successfully inserted
  */
 async function createUser(db, user) {
-    const { id, createdAt, updatedAt, username,
-        password, gender, apiKey, apiKeyExpiresAt
-     } = user;
+  const {
+    id,
+    createdAt,
+    updatedAt,
+    username,
+    password,
+    gender,
+    apiKey,
+    apiKeyExpiresAt,
+  } = user;
 
-    await db('users').insert({
-        id,
-        created_at: createdAt,
-        updated_at: updatedAt,
-        username,
-        password,
-        gender,
-        api_key: apiKey,
-        api_key_expires_at: apiKeyExpiresAt
-    });
+  await db("users").insert({
+    id,
+    created_at: createdAt,
+    updated_at: updatedAt,
+    username,
+    password,
+    gender,
+    api_key: apiKey,
+    api_key_expires_at: apiKeyExpiresAt,
+  });
 }
 
 /**
@@ -36,7 +43,7 @@ async function createUser(db, user) {
  * @returns {Promise<Object|null>} - Resolves with the user record or null if not found
  */
 async function getUserByApiKey(db, apiKey) {
-    return await db('users').where({ api_key: apiKey }).first();
+  return await db("users").where({ api_key: apiKey }).first();
 }
 
 /**
@@ -46,7 +53,7 @@ async function getUserByApiKey(db, apiKey) {
  * @returns {Promise<Object|null>} - Resolves with the user record or null if not found
  */
 async function getUserByName(db, username) {
-    return await db('users').where({ username }).first();
+  return await db("users").where({ username }).first();
 }
 
 /**
@@ -56,7 +63,7 @@ async function getUserByName(db, username) {
  * @returns {Promise<Object|null>} - Resolves with the user record or null if not found
  */
 async function getUserByID(db, id) {
-    return await db('users').where({ id }).first();
+  return await db("users").where({ id }).first();
 }
 
 /**
@@ -70,20 +77,18 @@ async function getUserByID(db, id) {
  * @returns {Promise<void>} - Resolves when the record is successfully updated
  */
 async function updateUser(db, user) {
-    const { id, updatedAt, apiKey, apiKeyExpiresAt } = user;
-    await db('users')
-        .where({ id })
-        .update({ 
-            updated_at: updatedAt,
-            api_key: apiKey,
-            api_key_expires_at: apiKeyExpiresAt
-        });
+  const { id, updatedAt, apiKey, apiKeyExpiresAt } = user;
+  await db("users").where({ id }).update({
+    updated_at: updatedAt,
+    api_key: apiKey,
+    api_key_expires_at: apiKeyExpiresAt,
+  });
 }
 
-module.exports = { 
-    createUser,
-    getUserByApiKey,
-    getUserByName,
-    getUserByID,
-    updateUser
-}
+module.exports = {
+  createUser,
+  getUserByApiKey,
+  getUserByName,
+  getUserByID,
+  updateUser,
+};
