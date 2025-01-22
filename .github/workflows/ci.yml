@@ -40,17 +40,10 @@ jobs:
           docker ps
           docker logs $(docker ps -q --filter ancestor=postgres:latest)
 
-      - name: Check PostgreSQL environment variables
-        run: |
-          echo "POSTGRES_USER: ${{ secrets.DB_USER_TEST }}"
-          echo "POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}"
-        env:
-          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
-          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
-
       - name: Wait for PostgreSQL to be ready
         run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          sleep 20  # รอ PostgreSQL สัก 20 วินาที
           until pg_isready -U $POSTGRES_USER -h localhost -p 5432; do
             echo "Waiting for PostgreSQL to be ready..."
             sleep 2
