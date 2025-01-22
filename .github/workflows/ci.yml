@@ -33,10 +33,6 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        env:
-          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
-          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
         run: npm ci
 
       - name: Check PostgreSQL status
@@ -45,6 +41,10 @@ jobs:
           docker logs $(docker ps -q --filter ancestor=postgres:latest)
 
       - name: Wait for PostgreSQL to be ready
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
+          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
         run: |
           echo "Password: $POSTGRES_PASSWORD"
           echo "Waiting for PostgreSQL to be ready..."
@@ -53,18 +53,14 @@ jobs:
             echo "Waiting for PostgreSQL to be ready..."
             sleep 2
           done
-        env:
-          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
-          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
-          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
 
       - name: Run unit tests
         working-directory: backend
-        run: npm test
         env:
           POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
           POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
           POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
+        run: npm test
 
       - name: Run linter
         working-directory: backend
