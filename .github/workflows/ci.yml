@@ -42,8 +42,12 @@ jobs:
 
       - name: Check PostgreSQL environment variables
         run: |
-          echo "POSTGRES_USER: $POSTGRES_USER"
-          echo "POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
+          echo "POSTGRES_USER: ${{ secrets.DB_USER_TEST }}"
+          echo "POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}"
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
+          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
 
       - name: Wait for PostgreSQL to be ready
         run: |
