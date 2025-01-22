@@ -18,7 +18,7 @@ beforeAll(async () => {
     },
   });
 
-  await db.schema.createTable("users_test", (table) => {
+  await db.schema.createTable("users_test_for_user_key", (table) => {
     table.text("id").primary();
     table.text("username").notNullable();
     table.text("password").notNullable();
@@ -35,19 +35,19 @@ beforeAll(async () => {
       .text("user_id")
       .notNullable()
       .references("id")
-      .inTable("users_test")
+      .inTable("users_test_for_user_key")
       .onDelete("CASCADE");
   });
 });
 
 afterEach(async () => {
   await db("users_key").delete();
-  await db("users_test").delete();
+  await db("users_test_for_user_key").delete();
 });
 
 afterAll(async () => {
   await db.schema.dropTableIfExists("users_key");
-  await db.schema.dropTableIfExists("users_test");
+  await db.schema.dropTableIfExists("users_test_for_user_key");
   await db.destroy();
 });
 
@@ -69,7 +69,7 @@ describe("Users Key Database Functions", () => {
   };
 
   beforeEach(async () => {
-    await db("users_test").insert(testUser);
+    await db("users_test_for_user_key").insert(testUser);
   });
 
   it("should create a user key", async () => {

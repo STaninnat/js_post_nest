@@ -18,7 +18,7 @@ beforeAll(async () => {
     },
   });
 
-  await db.schema.createTable("users_test", (table) => {
+  await db.schema.createTable("users_test_for_post", (table) => {
     table.text("id").primary();
     table.text("username").notNullable();
     table.text("password").notNullable();
@@ -33,19 +33,19 @@ beforeAll(async () => {
       .text("user_id")
       .notNullable()
       .references("id")
-      .inTable("users_test")
+      .inTable("users_test_for_post")
       .onDelete("CASCADE");
   });
 });
 
 afterEach(async () => {
   await db("posts").delete();
-  await db("users_test").delete();
+  await db("users_test_for_post").delete();
 });
 
 afterAll(async () => {
   await db.schema.dropTableIfExists("posts");
-  await db.schema.dropTableIfExists("users_test");
+  await db.schema.dropTableIfExists("users_test_for_post");
   await db.destroy();
 });
 
@@ -65,7 +65,7 @@ describe("Users Posts Database Functions", () => {
   };
 
   beforeEach(async () => {
-    await db("users_test").insert(testUser);
+    await db("users_test_for_post").insert(testUser);
   });
 
   it("should create a post", async () => {
