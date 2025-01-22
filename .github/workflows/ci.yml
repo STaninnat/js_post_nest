@@ -51,20 +51,20 @@ jobs:
           POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
         run: |
           echo "Waiting for PostgreSQL to be ready..."
-          sleep 10
+          sleep 20
           until pg_isready -U $POSTGRES_USER -h postgres -p 5432; do
             echo "Waiting for PostgreSQL to be ready..."
-            sleep 5
+            sleep 10
           done
 
       - name: Run unit tests
         working-directory: backend
         env:
           DB_USER_TEST: ${{ secrets.DB_USER_TEST }}
-          DB_PASSWORD_TEST: ${{ secrets.DB_PASSWORD_TEST }}
           DB_NAME_TEST: ${{ secrets.DB_NAME_TEST }}
           DB_HOST_TEST: ${{ secrets.DB_HOST_TEST }}
           DB_PORT_TEST: ${{ secrets.DB_PORT_TEST }}
+          DB_PASSWORD_TEST: ${{ secrets.DB_PASSWORD_TEST }}
         run: npm test
 
       - name: Run linter
