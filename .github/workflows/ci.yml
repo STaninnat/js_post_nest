@@ -55,7 +55,7 @@ jobs:
           POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
         run: |
           echo "Waiting for PostgreSQL to be ready..."
-          sleep 20
+          sleep 10
           until pg_isready -U $POSTGRES_USER -h localhost -p 5432; do
             echo "Waiting for PostgreSQL to be ready..."
             sleep 10
