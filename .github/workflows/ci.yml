@@ -42,6 +42,7 @@ jobs:
 
       - name: Wait for PostgreSQL to be ready
         run: |
+          echo "Password: $POSTGRES_PASSWORD"
           echo "Waiting for PostgreSQL to be ready..."
           sleep 10
           until pg_isready -U $POSTGRES_USER -h localhost -p 5432; do

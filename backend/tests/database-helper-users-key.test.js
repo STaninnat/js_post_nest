@@ -18,6 +18,9 @@ beforeAll(async () => {
     },
   });
 
+  console.log("DB_USER_TEST:", process.env.DB_USER_TEST);
+  console.log("DB_PASSWORD_TEST:", process.env.DB_PASSWORD_TEST);
+
   await db.schema.createTable("users_test", (table) => {
     table.text("id").primary();
     table.text("username").notNullable();
