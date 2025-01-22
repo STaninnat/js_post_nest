@@ -1,17 +1,17 @@
 /**
  * Insert a new user key record into the database
  * @param {database} db - Database connection instance
- * @param {Object} user_key - Object containing user key details
- * @param {string} user_key.id - Unique identifier for the user key
- * @param {Date} user_key.createdAt - Timestamp of when the key was created
- * @param {Date} user_key.updatedAt - Timestamp of the last update to the key
- * @param {Date} user_key.accessTokenExpiresAt - Expiry timestamp for the access token
- * @param {string} user_key.refreshToken - Refresh token value
- * @param {Date} user_key.refreshTokenExpiresAt - Expiry timestamp for the refresh token
- * @param {string} user_key.userID - Identifier of the associated user
+ * @param {Object} userKey - Object containing user key details
+ * @param {string} userKey.id - Unique identifier for the user key
+ * @param {Date} userKey.createdAt - Timestamp of when the key was created
+ * @param {Date} userKey.updatedAt - Timestamp of the last update to the key
+ * @param {Date} userKey.accessTokenExpiresAt - Expiry timestamp for the access token
+ * @param {string} userKey.refreshToken - Refresh token value
+ * @param {Date} userKey.refreshTokenExpiresAt - Expiry timestamp for the refresh token
+ * @param {string} userKey.userID - Identifier of the associated user
  * @returns {Promise<void>} - Resolves when the record is successfully inserted
  */
-async function createUserRFKey(db, user_key) {
+async function createUserRFKey(db, userKey) {
   const {
     id,
     createdAt,
@@ -20,7 +20,7 @@ async function createUserRFKey(db, user_key) {
     refreshToken,
     refreshTokenExpiresAt,
     userID,
-  } = user_key;
+  } = userKey;
 
   await db("users_key").insert({
     id,
@@ -36,22 +36,22 @@ async function createUserRFKey(db, user_key) {
 /**
  * Update an existing user key record in the database
  * @param {database} db - Database connection instance
- * @param {Object} user_key - Object containing updated user key details
- * @param {Date} user_key.updatedAt - Timestamp of the last update to the key
- * @param {Date} user_key.accessTokenExpiresAt - Expiry timestamp for the access token
- * @param {string} user_key.refreshToken - Refresh token value
- * @param {Date} user_key.refreshTokenExpiresAt - Expiry timestamp for the refresh token
- * @param {string} user_key.userID - Identifier of the associated user
+ * @param {Object} userKey - Object containing updated user key details
+ * @param {Date} userKey.updatedAt - Timestamp of the last update to the key
+ * @param {Date} userKey.accessTokenExpiresAt - Expiry timestamp for the access token
+ * @param {string} userKey.refreshToken - Refresh token value
+ * @param {Date} userKey.refreshTokenExpiresAt - Expiry timestamp for the refresh token
+ * @param {string} userKey.userID - Identifier of the associated user
  * @returns {Promise<void>} - Resolves when the record is successfully updated
  */
-async function updateUserRFKey(db, user_key) {
+async function updateUserRFKey(db, userKey) {
   const {
     updatedAt,
     accessTokenExpiresAt,
     refreshToken,
     refreshTokenExpiresAt,
     userID,
-  } = user_key;
+  } = userKey;
 
   await db("users_key").where({ user_id: userID }).update({
     updated_at: updatedAt,
