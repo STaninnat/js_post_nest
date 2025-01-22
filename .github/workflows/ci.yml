@@ -5,8 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  tests:
-    name: Tests
+  backend:
+    name: Backend Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -18,13 +18,16 @@ jobs:
         with:
           node-version: "21"
           cache: npm
+          cache-dependency-path: backend/package-lock.json
 
       - name: Install dependencies
+        working-directory: backend
         run: npm ci
 
       - name: Run unit tests
+        working-directory: backend
         run: npm test
 
       - name: Run linter
+        working-directory: backend
         run: npm run lint
-        continue-on-error: false
