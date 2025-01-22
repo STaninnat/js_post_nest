@@ -31,14 +31,7 @@ async function handlerRefreshKey(req, res) {
     }
 
     const { hashedApiKey: newHashedApiKey } = await hashAPIKey();
-    const newApiKeyExpiresAt = dayjs().add(1, "year").toDate();
-
-    const newJwtTokenExpiresAt = dayjs().add(1, "hour").toDate();
-    const newJwtToken = generateJWTToken(
-      { id: user.user_id, api_key: newHashedApiKey },
-      newJwtTokenExpiresAt,
-      "jwtToken"
-    );
+    const newApiKeyExpiresAt = dayjs().add(3, "month").toDate();
 
     await queriesUsers.updateUser(db, {
       id: user.user_id,
@@ -47,11 +40,30 @@ async function handlerRefreshKey(req, res) {
       apiKeyExpiresAt: newApiKeyExpiresAt,
     });
 
+    const newJwtTokenExpiresAt = dayjs().add(1, "hour").toDate();
+    const newJwtToken = generateJWTToken(
+      { id: user.user_id, api_key: newHashedApiKey },
+      newJwtTokenExpiresAt,
+      "jwtToken"
+    );
+
+    let newRefreshToken = refreshToken;
     const newRefreshTokenExpiresAt = dayjs().add(30, "day").toDate();
+    if (
+      typeof refreshToken === "string" &&
+      newRefreshToken.startsWith("expired-")
+    ) {
+      newRefreshToken = generateJWTToken(
+        { id: user.user_id, api_key: newHashedApiKey },
+        newRefreshTokenExpiresAt,
+        "refreshToken"
+      );
+    }
+
     await queriesUsersKey.updateUserRFKey(db, {
       updatedAt: dayjs().toDate(),
       accessTokenExpiresAt: newJwtTokenExpiresAt,
-      refreshToken,
+      refreshToken: newRefreshToken,
       refreshTokenExpiresAt: newRefreshTokenExpiresAt,
       userID: user.user_id,
     });
@@ -64,7 +76,7 @@ async function handlerRefreshKey(req, res) {
       sameSite: "strict",
     });
 
-    res.cookie("refresh_token", refreshToken, {
+    res.cookie("refresh_token", newRefreshToken, {
       httpOnly: true,
       secure: true,
       path: "/",
@@ -76,8 +88,8 @@ async function handlerRefreshKey(req, res) {
       message: "token refreshed successfully",
     });
   } catch (error) {
-    console.error("Refresh token error:", error.message, error.stack);
-    return respondWithError(res, 500, "error refreshing token");
+    console.error("error during refresh token: ", error.message, error.stack);
+    return respondWithError(res, 500, "error - refreshing token");
   }
 }
 

@@ -11,15 +11,16 @@ const healthRouter = require("./routers/handler-ready");
 const handlerPostCreate = require("./routers/handler-user-post");
 const handlerUserCreate = require("./routers/handler-user-create");
 const handlerUserSignin = require("./routers/handler-user-signin");
+const handlerUserSignout = require("./routers/handler-user-signout");
 const handlerUserRefreshKey = require("./routers/handler-refresh-key");
 
 const app = express();
 const port = process.env.PORT;
+const jwtSecret = process.env.JWT_SECRET;
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Bangkok");
-const jwtSecret = process.env.JWT_SECRET;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -29,6 +30,7 @@ app.use("/user", handlerUserSignin);
 app.use("/user", handlerUserRefreshKey);
 
 app.use("/user/auth", middlewareAuth(db, jwtSecret), handlerPostCreate);
+app.use("/user/auth", middlewareAuth(db, jwtSecret), handlerUserSignout);
 
 app.use("/healthz", healthRouter);
 
