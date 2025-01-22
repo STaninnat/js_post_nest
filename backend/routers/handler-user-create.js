@@ -115,7 +115,7 @@ async function handlerUserCreate(req, res) {
     return respondWithJSON(res, 201, { message: "User created successfully" });
   } catch (err) {
     console.error("error during user creation: ", err.message, err.stack);
-    return respondWithError(res, 500, "error createing user");
+    return respondWithError(res, 500, "error - creating user");
   }
 }
 

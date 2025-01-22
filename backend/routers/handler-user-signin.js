@@ -7,10 +7,13 @@ const db = require("../database/knex-instance");
 const queriesUsers = require("../database/helper/users");
 const queriesUsersKey = require("../database/helper/users-key");
 const {
+  generateJWTToken,
+  hashAPIKey,
+} = require("../middleware/generate-token");
+const {
   respondWithJSON,
   respondWithError,
 } = require("../middleware/respond-json");
-const { generateJWTToken } = require("../middleware/generate-token");
 
 const router = express.Router();
 
@@ -41,7 +44,17 @@ async function handlerUserSignin(req, res) {
       return respondWithError(res, 500, "invalid user ID");
     }
 
-    const jwtExpiresAt = dayjs().add(1, "hour").toDate();
+    const { hashedApiKey } = await hashAPIKey();
+    const apiKeyExpiresAt = dayjs().add(1, "day").toDate();
+
+    await queriesUsers.updateUser(db, {
+      id: userID,
+      updatedAt: dayjs().toDate(),
+      apiKey: hashedApiKey,
+      apiKeyExpiresAt: apiKeyExpiresAt,
+    });
+
+    const jwtExpiresAt = dayjs().add(1, "month").toDate();
     const jwtToken = generateJWTToken(
       { id: userID, api_key: user.api_key },
       jwtExpiresAt,
@@ -79,10 +92,10 @@ async function handlerUserSignin(req, res) {
       sameSite: "strict",
     });
 
-    return respondWithJSON(res, 200, { message: "Login successfully" });
+    return respondWithJSON(res, 200, { message: "Logged in successfully" });
   } catch (error) {
-    console.error("Login error:", error.message, error.stack);
-    return respondWithError(res, 500, "error logging in");
+    console.error("error during logging in: ", error.message, error.stack);
+    return respondWithError(res, 500, "error - logging in");
   }
 }
 

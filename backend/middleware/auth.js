@@ -36,7 +36,7 @@ function middlewareAuth(db, jwtSecret) {
 }
 
 function isApiKeyExpired(user) {
-  return dayjs(user.apiKeyExpiresAt).isBefore(dayjs().toDate());
+  return dayjs(user.api_key_expires_at).isBefore(dayjs().toDate());
 }
 
 module.exports = middlewareAuth;

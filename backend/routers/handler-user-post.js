@@ -17,7 +17,6 @@ async function handlerPostCreate(req, res) {
   if (!user) {
     return respondWithError(res, 400, "cannot find user");
   }
-  console.log("user: ", user);
 
   if (!post || post.trim() === "") {
     return respondWithError(res, 400, "post content cannot be empty");
@@ -37,7 +36,7 @@ async function handlerPostCreate(req, res) {
     return respondWithJSON(res, 201, { message: "Post created successfully" });
   } catch (error) {
     console.error("error during post creation: ", error.message, error.stack);
-    respondWithError(res, 500, "error creating post");
+    respondWithError(res, 500, "error - creating post");
   }
 }
 
