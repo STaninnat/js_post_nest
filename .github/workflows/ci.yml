@@ -9,16 +9,16 @@ jobs:
     name: Backend Tests
     runs-on: ubuntu-latest
 
-    # services:
-    #   postgres:
-    #     image: postgres:latest
-    #     env:
-    #       POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
-    #       POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
-    #       POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
-    #     ports:
-    #       - 5432:5432
-    #     options: --health-cmd="pg_isready -U $POSTGRES_USER -d $POSTGRES_DB" --health-interval=10s --health-timeout=5s --health-retries=5
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
+          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready -U $POSTGRES_USER -d $POSTGRES_DB" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
       - name: Checkout code
@@ -33,29 +33,29 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
-        # env:
-        #   POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
-        #   POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
-        #   POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
+          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
         run: npm ci
 
-      # - name: Check PostgreSQL status
-      #   run: |
-      #     docker ps
-      #     docker logs $(docker ps -q --filter ancestor=postgres:latest)
+      - name: Check PostgreSQL status
+        run: |
+          docker ps
+          docker logs $(docker ps -q --filter ancestor=postgres:latest)
 
-      # - name: Wait for PostgreSQL to be ready
-      #   env:
-      #     POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
-      #     POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
-      #     POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
-      #   run: |
-      #     echo "Waiting for PostgreSQL to be ready..."
-      #     sleep 10
-      #     until pg_isready -U $POSTGRES_USER -h localhost -p 5432; do
-      #       echo "Waiting for PostgreSQL to be ready..."
-      #       sleep 5
-      #     done
+      - name: Wait for PostgreSQL to be ready
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
+          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          sleep 10
+          until pg_isready -U $POSTGRES_USER -h postgres -p 5432; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 5
+          done
 
       - name: Run unit tests
         working-directory: backend

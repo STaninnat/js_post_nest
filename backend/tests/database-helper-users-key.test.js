@@ -18,10 +18,6 @@ beforeAll(async () => {
     },
   });
 
-  console.log("DB_PORT_TEST:", process.env.DB_PORT_TEST);
-  console.log("DB_HOST_TEST:", process.env.DB_HOST_TEST);
-  console.log("DB_NAME_TEST:", process.env.DB_NAME_TEST);
-
   await db.schema.createTable("users_test", (table) => {
     table.text("id").primary();
     table.text("username").notNullable();
