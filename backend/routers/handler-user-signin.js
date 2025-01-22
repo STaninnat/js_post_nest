@@ -1,13 +1,11 @@
-require("dotenv").config({ path: "../.env" });
 const dayjs = require("dayjs");
 const bcrypt = require("bcrypt");
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const { validate } = require("uuid");
 
 const db = require("../database/knex-instance");
 const queriesUsers = require("../database/helper/users");
-const queriesUsersKey = require("../database/helper/users_key");
+const queriesUsersKey = require("../database/helper/users-key");
 const {
   respondWithJSON,
   respondWithError,
@@ -45,13 +43,14 @@ async function handlerUserSignin(req, res) {
 
     const jwtExpiresAt = dayjs().add(1, "hour").toDate();
     const jwtToken = generateJWTToken(
-      { id: userID, apiKey: user.hashedApiKey },
+      { id: userID, api_key: user.api_key },
       jwtExpiresAt,
       "jwtToken"
     );
+
     const refreshTokenExpiresAt = dayjs().add(30, "day").toDate();
     const refreshToken = generateJWTToken(
-      { id: userID, apiKey: user.hashedApiKey },
+      { id: userID, api_key: user.api_key },
       refreshTokenExpiresAt,
       "refreshToken"
     );
