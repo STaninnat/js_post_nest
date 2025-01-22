@@ -33,7 +33,17 @@ jobs:
 
       - name: Install dependencies
         working-directory: backend
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
+          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
         run: npm ci
+
+      - name: Check environment variables
+        run: |
+          echo "DB_USER_TEST: $POSTGRES_USER"
+          echo "DB_PASSWORD_TEST: $POSTGRES_PASSWORD"
+          echo "DB_NAME_TEST: $POSTGRES_DB"
 
       - name: Check PostgreSQL status
         run: |
