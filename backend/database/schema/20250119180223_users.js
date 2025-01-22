@@ -1,9 +1,9 @@
+// npx knex migrate:latest
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-
-// npx knex migrate:latest
 exports.up = function (knex) {
   return knex.schema.createTable("users", (table) => {
     table.text("id").primary();
@@ -18,6 +18,11 @@ exports.up = function (knex) {
 };
 
 // npx knex migrate:rollback --all {but careful --all}
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
 exports.down = function (knex) {
   return knex.schema.dropTableIfExists("users");
 };
