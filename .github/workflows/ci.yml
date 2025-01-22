@@ -57,6 +57,10 @@ jobs:
       - name: Run unit tests
         working-directory: backend
         run: npm test
+        env:
+          POSTGRES_USER: ${{ secrets.DB_USER_TEST }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD_TEST }}
+          POSTGRES_DB: ${{ secrets.DB_NAME_TEST }}
 
       - name: Run linter
         working-directory: backend
