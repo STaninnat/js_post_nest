@@ -9,6 +9,13 @@ jobs:
     name: Backend Tests
     runs-on: ubuntu-latest
 
+    env:
+      DB_USER_TEST: ${{ secrets.DB_USER_TEST }}
+      DB_PASSWORD_TEST: ${{ secrets.DB_PASSWORD_TEST }}
+      DB_HOST_TEST: ${{ secrets.DB_HOST_TEST }}
+      DB_PORT_TEST: ${{ secrets.DB_PORT_TEST }}
+      DB_NAME_TEST: ${{ secrets.DB_NAME_TEST }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
