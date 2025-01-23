@@ -1,6 +1,3 @@
-const express = require("express");
-
-const router = express.Router();
 const {
   respondWithJSON,
   respondWithError,
@@ -14,7 +11,4 @@ function handlerError(req, res) {
   respondWithError(res, 500, "Internal Server Error");
 }
 
-router.get("/readiness", handlerReadiness);
-router.get("/error", handlerError);
-
-module.exports = router;
+module.exports = { handlerReadiness, handlerError };

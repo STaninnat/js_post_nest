@@ -1,6 +1,5 @@
 const dayjs = require("dayjs");
 const bcrypt = require("bcrypt");
-const express = require("express");
 const { validate } = require("uuid");
 
 const db = require("../database/knex-instance");
@@ -14,8 +13,6 @@ const {
   respondWithJSON,
   respondWithError,
 } = require("../middleware/respond-json");
-
-const router = express.Router();
 
 async function handlerUserSignin(req, res) {
   const { username, password } = req.body;
@@ -99,6 +96,4 @@ async function handlerUserSignin(req, res) {
   }
 }
 
-router.post("/signin", handlerUserSignin);
-
-module.exports = router;
+module.exports = handlerUserSignin;

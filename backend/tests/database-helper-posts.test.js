@@ -85,7 +85,12 @@ describe("Users Posts Database Functions", () => {
 
   it("should get posts by user ID", async () => {
     await queriesUsersPost.createPost(db, testUserPost);
-    const post = await queriesUsersPost.getPostByUserID(db, "usertest1");
+    const posts = await queriesUsersPost.getPostsByUserID(db, "usertest1");
+
+    expect(posts).toBeInstanceOf(Array);
+    expect(posts.length).toBeGreaterThan(0);
+
+    const post = posts[0];
     expect(post).toBeDefined();
     expect(post.post).toBe("testpost1");
     expect(post.user_id).toBe("usertest1");

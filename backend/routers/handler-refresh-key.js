@@ -1,5 +1,4 @@
 const dayjs = require("dayjs");
-const express = require("express");
 
 const db = require("../database/knex-instance");
 const queriesUsers = require("../database/helper/users");
@@ -12,8 +11,6 @@ const {
   generateJWTToken,
   hashAPIKey,
 } = require("../middleware/generate-token");
-
-const router = express.Router();
 
 async function handlerRefreshKey(req, res) {
   try {
@@ -93,6 +90,4 @@ async function handlerRefreshKey(req, res) {
   }
 }
 
-router.post("/refresh-key", handlerRefreshKey);
-
-module.exports = router;
+module.exports = handlerRefreshKey;

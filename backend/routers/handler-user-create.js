@@ -1,6 +1,5 @@
 const dayjs = require("dayjs");
 const bcrypt = require("bcrypt");
-const express = require("express");
 const { v4: uuidv4, validate } = require("uuid");
 
 const db = require("../database/knex-instance");
@@ -15,8 +14,6 @@ const {
   hashAPIKey,
   generateJWTToken,
 } = require("../middleware/generate-token");
-
-const router = express.Router();
 
 async function handlerUserCreate(req, res) {
   const { username, password, gender } = req.body;
@@ -119,6 +116,32 @@ async function handlerUserCreate(req, res) {
   }
 }
 
-router.post("/signup", handlerUserCreate);
+async function handlerUserGet(req, res) {
+  const userParams = req.user;
+  if (!userParams) {
+    return respondWithError(res, 401, "user authorization is required");
+  }
 
-module.exports = router;
+  try {
+    const user = await queriesUsers.getUserByID(db, userParams.id);
+    if (!user || user.id !== userParams.id) {
+      return respondWithError(res, 404, "user not found");
+    }
+
+    const userInfo = {
+      id: user.id,
+      createdAt: user.created_at,
+      updatedAt: user.updated_at,
+      username: user.username,
+      gender: user.gender,
+      apiKeyExpiresAt: user.api_key_expires_at,
+    };
+
+    return respondWithJSON(res, 200, { userInfo });
+  } catch (error) {
+    console.error("error during getting user: ", error.message, error.stack);
+    return respondWithError(res, 500, "error - couldn't get user");
+  }
+}
+
+module.exports = { handlerUserCreate, handlerUserGet };
