@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: "./.env.test" });
 const knex = require("knex");
 const dayjs = require("dayjs");
 
