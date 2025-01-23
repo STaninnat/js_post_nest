@@ -17,8 +17,5 @@ module.exports = {
     migrations: {
       directory: "./schema",
     },
-    seeds: {
-      directory: "./seeds",
-    },
   },
 };
