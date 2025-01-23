@@ -15,7 +15,7 @@ const router = express.Router();
 async function handlerLogout(req, res) {
   const user = req.user;
   if (!user) {
-    return respondWithError(res, 400, "cannot find user");
+    return respondWithError(res, 401, "user authorization is required");
   }
 
   try {

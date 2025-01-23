@@ -36,8 +36,10 @@ async function getPostByID(db, id) {
  * @param {string} userID - Identifier of the user
  * @returns {Promise<Object|null>} - Resolves with the user key record or null if not found
  */
-async function getPostByUserID(db, userID) {
-  return await db("posts").where({ user_id: userID }).first();
+async function getPostsByUserID(db, userID) {
+  return await db("posts")
+    .where({ user_id: userID })
+    .orderBy("created_at", "desc");
 }
 
 /**
@@ -80,7 +82,7 @@ async function updatePost(db, id, updatedPost) {
 module.exports = {
   createPost,
   getPostByID,
-  getPostByUserID,
+  getPostsByUserID,
   getAllPosts,
   deletePost,
   updatePost,
