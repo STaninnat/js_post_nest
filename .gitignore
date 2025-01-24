@@ -13,7 +13,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 frontend/README.md
-frontend/node_modules
+frontend/node_modules/
 frontend/dist
 dist
 frontend/dist-ssr
@@ -30,4 +30,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-node_modules
+node_modules/
