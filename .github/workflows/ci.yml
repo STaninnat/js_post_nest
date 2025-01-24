@@ -5,6 +5,27 @@ on:
     branches: [main]
 
 jobs:
+  root:
+    name: Test in Root
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "21"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies (Root)
+        run: npm ci
+
+      - name: Run linter (Root)
+        run: npm run lint
+
   backend:
     name: Backend Tests
     runs-on: ubuntu-latest
@@ -66,7 +87,3 @@ jobs:
           DB_PORT_TEST: ${{ secrets.DB_PORT_TEST }}
           DB_PASSWORD_TEST: ${{ secrets.DB_PASSWORD_TEST }}
         run: npm test
-
-      - name: Run linter
-        working-directory: backend
-        run: npm run lint
