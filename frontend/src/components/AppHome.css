@@ -1,0 +1,88 @@
+.app-home-section {
+  display: flex;
+  height: 100dvh;
+}
+
+.app-home-left {
+  flex: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-home-ghost {
+  height: 70%;
+  max-height: var(--608px);
+  width: auto;
+}
+
+.app-home-right {
+  flex: 5;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.app-home-container {
+  color: white;
+  padding: var(--32px);
+  border: var(--4px) solid hsl(240, 30%, 3%);
+  border-radius: var(--48px);
+  box-shadow: var(--4px) var(--4px) var(--16px) hsl(0, 0%, 0%);
+  width: var(--720px);
+  height: var(--448px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.app-home-container h1 {
+  font-weight: 800;
+  font-size: var(--64px);
+  letter-spacing: 0.6px;
+}
+
+.app-home-container h2 {
+  font-weight: 600;
+  font-size: var(--32px);
+  margin-top: var(--48px);
+  letter-spacing: 0.3px;
+}
+
+.app-home-container h3 {
+  font-size: var(--16px);
+  margin-top: var(--32px);
+}
+
+.app-home-container button {
+  color: white;
+  padding: var(--12px);
+  width: var(--280px);
+  align-self: flex-start;
+  border-radius: var(--24px);
+  text-align: center;
+  font-weight: 500;
+  font-size: var(--16px);
+  transition: transform 0.6s ease;
+  cursor: pointer;
+}
+
+#btn-user-create {
+  margin-top: var(--32px);
+  background-color: hsl(252, 58%, 18%);
+  border: var(--4px) solid hsl(252, 58%, 18%);
+}
+
+#btn-user-create:hover {
+  background-color: hsl(252, 58%, 16%);
+  border: var(--4px) solid hsl(252, 58%, 16%);
+}
+
+#btn-user-signin {
+  margin-top: var(--16px);
+  border: var(--4px) solid white;
+}
+
+#btn-user-signin:hover {
+  background-color: hsla(252, 59%, 16%, 0.3);
+}

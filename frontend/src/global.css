@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+:root {
+  --4px: 0.25rem;
+  --8px: 0.5rem;
+  --10px: 0.625rem;
+  --12px: 0.75rem;
+  --14px: 0.875rem;
+  --16px: 1rem;
+  --24px: 1.5rem;
+  --32px: 2rem;
+  --40px: 2.5rem;
+  --48px: 3rem;
+  --56px: 3.5rem;
+  --64px: 4rem;
+  --80px: 5rem;
+  --88px: 5.5rem;
+  --100px: 6.25rem;
+  --280px: 17.5rem;
+  --300px: 18.75rem;
+  --380px: 23.75rem;
+  --448px: 28rem;
+  --480px: 30rem;
+  --560px: 35rem;
+  --608px: 38rem;
+  --640px: 40rem;
+  --688px: 43rem;
+  --720px: 45rem;
+  --768px: 48rem;
+  --1024px: 64rem;
+  --1200px: 75rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  background-color: hsl(240, 30%, 3%);
+}
