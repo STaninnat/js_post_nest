@@ -48,6 +48,7 @@ function AppHome() {
           <h3>Already have an account?</h3>
           <button
             id="btn-user-signin"
+            data-testid="home-signin-button"
             onClick={() => setPopupType({ type: "login", error: null })}
           >
             Sign in

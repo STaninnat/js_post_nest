@@ -15,17 +15,14 @@ function LoginForm(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState("");
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
-    setError("");
     setPopupType({ type: popupType?.type, error: null });
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    setError("");
     setPopupType({ type: popupType?.type, error: null });
   };
 
@@ -35,13 +32,6 @@ function LoginForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!username || !password) {
-      setError("Please fill out all fields.");
-      return;
-    }
-
-    setError("");
 
     const formData = {
       username,
@@ -55,6 +45,7 @@ function LoginForm(props) {
 
   return (
     <form
+      data-testid="login-form"
       onSubmit={handleSubmit}
       className={`form-container ${formClass}`}
       autoComplete="off"
@@ -92,12 +83,14 @@ function LoginForm(props) {
         <span>Remember me?</span>
       </label>
 
-      {(error || externalError) && (
-        <p className="error-message">{error || externalError}</p>
-      )}
+      {externalError && <p className="error-message">{externalError}</p>}
       {message && <p className="complete-message">{message}</p>}
 
-      <button type="submit" disabled={!username || !password}>
+      <button
+        data-testid="loginform-signin-button"
+        type="submit"
+        disabled={!username || !password}
+      >
         Sign In
       </button>
     </form>
