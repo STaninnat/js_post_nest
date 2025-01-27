@@ -6,7 +6,7 @@ on:
 
 jobs:
   root:
-    name: Test in Root
+    name: Root Test
     runs-on: ubuntu-latest
 
     steps:
