@@ -15,7 +15,7 @@ const {
 } = require("../middleware/respond-json");
 
 async function handlerUserSignin(req, res) {
-  const { username, password } = req.body;
+  const { username, password, rememberMe } = req.body;
 
   if (!username || !password) {
     return respondWithError(res, 400, "invalid input");
@@ -51,14 +51,18 @@ async function handlerUserSignin(req, res) {
       apiKeyExpiresAt: apiKeyExpiresAt,
     });
 
-    const jwtExpiresAt = dayjs().add(1, "month").toDate();
+    const jwtExpiresAt = rememberMe
+      ? dayjs().add(30, "day").toDate()
+      : dayjs().add(1, "hour").toDate();
     const jwtToken = generateJWTToken(
       { id: userID, api_key: user.api_key },
       jwtExpiresAt,
       "jwtToken"
     );
 
-    const refreshTokenExpiresAt = dayjs().add(30, "day").toDate();
+    const refreshTokenExpiresAt = rememberMe
+      ? dayjs().add(30, "day").toDate()
+      : dayjs().add(30, "day").toDate();
     const refreshToken = generateJWTToken(
       { id: userID, api_key: user.api_key },
       refreshTokenExpiresAt,
