@@ -16,7 +16,6 @@ function CreateUserForm(props) {
   const [termsChecked, setTermsChecked] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const handleGenderBlur = () => {
     if (gender === "") {
@@ -34,30 +33,16 @@ function CreateUserForm(props) {
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
-    setError("");
     setPopupType({ type: popupType?.type, error: null });
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
-    setError("");
     setPopupType({ type: popupType?.type, error: null });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!username || !password) {
-      setError("Please fill out all fields.");
-      return;
-    }
-
-    if (!termsChecked) {
-      setError("You must agree to the terms and conditions.");
-      return;
-    }
-
-    setError("");
 
     const genderValue = gender === "default" ? "" : gender;
 
@@ -68,10 +53,12 @@ function CreateUserForm(props) {
     };
 
     onSubmit(formData);
+    setPopupType({ type: null, error: null });
   };
 
   return (
     <form
+      data-testid="create-user-form"
       onSubmit={handleSubmit}
       className={`form-container ${formClass}`}
       autoComplete="off"
@@ -128,9 +115,7 @@ function CreateUserForm(props) {
         </span>
       </label>
 
-      {(error || externalError) && (
-        <p className="error-message">{error || externalError}</p>
-      )}
+      {externalError && <p className="error-message">{externalError}</p>}
       {message && <p className="complete-message">{message}</p>}
 
       <button type="submit" disabled={!username || !password || !termsChecked}>

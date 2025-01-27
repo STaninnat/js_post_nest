@@ -9,4 +9,10 @@ export default defineConfig({
       "/v1": "http://localhost:8080",
     },
   },
+  test: {
+    watch: false,
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/setupTests.js",
+  },
 });
