@@ -21,7 +21,7 @@ v1Router.post("/user/signin", handlerUserSignin);
 v1Router.post("/user/refresh-key", handlerUserRefreshKey);
 
 v1Router.get(
-  "/user/auth/:username",
+  "/user/auth/info/:username",
   middlewareAuth(db, jwtSecret),
   handlerUser.handlerUserGet
 );
@@ -31,7 +31,7 @@ v1Router.post(
   handlerUserSignout
 );
 v1Router.get(
-  "/user/auth/posts",
+  "/user/auth/allposts",
   middlewareAuth(db, jwtSecret),
   handlerPost.handlerPostsGet
 );

@@ -32,7 +32,7 @@ async function handlerUserSignin(req, res) {
       return respondWithError(res, 400, "incorrect password");
     }
 
-    if (dayjs(user.apiKeyExpiresAt).isBefore(dayjs().toDate())) {
+    if (dayjs.tz(user.apiKeyExpiresAt).isBefore(dayjs.tz().toDate())) {
       return respondWithError(res, 401, "api key expired");
     }
 
@@ -42,18 +42,18 @@ async function handlerUserSignin(req, res) {
     }
 
     const { hashedApiKey } = await hashAPIKey();
-    const apiKeyExpiresAt = dayjs().add(1, "day").toDate();
+    const apiKeyExpiresAt = dayjs.tz().add(1, "day").toDate();
 
     await queriesUsers.updateUser(db, {
       id: userID,
-      updatedAt: dayjs().toDate(),
+      updatedAt: dayjs.tz().toDate(),
       apiKey: hashedApiKey,
       apiKeyExpiresAt: apiKeyExpiresAt,
     });
 
     const jwtExpiresAt = rememberMe
-      ? dayjs().add(30, "day").toDate()
-      : dayjs().add(1, "hour").toDate();
+      ? dayjs.tz().add(30, "day").toDate()
+      : dayjs.tz().add(1, "hour").toDate();
     const jwtToken = generateJWTToken(
       { id: userID, api_key: user.api_key },
       jwtExpiresAt,
@@ -61,8 +61,8 @@ async function handlerUserSignin(req, res) {
     );
 
     const refreshTokenExpiresAt = rememberMe
-      ? dayjs().add(30, "day").toDate()
-      : dayjs().add(30, "day").toDate();
+      ? dayjs.tz().add(30, "day").toDate()
+      : dayjs.tz().add(30, "day").toDate();
     const refreshToken = generateJWTToken(
       { id: userID, api_key: user.api_key },
       refreshTokenExpiresAt,
@@ -70,7 +70,7 @@ async function handlerUserSignin(req, res) {
     );
 
     await queriesUsersKey.updateUserRFKey(db, {
-      updatedAt: dayjs().toDate(),
+      updatedAt: dayjs.tz().toDate(),
       accessTokenExpiresAt: jwtExpiresAt,
       refreshToken,
       refreshTokenExpiresAt,

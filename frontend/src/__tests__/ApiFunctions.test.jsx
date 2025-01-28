@@ -6,11 +6,12 @@ import FetchWithAlert from "../components/FetchWithAlert";
 vi.mock("../components/FetchWithAlert");
 
 describe("ApiFunctions", () => {
-  let setMessage, setPopupType;
+  let setMessage, setPopupType, navigate;
 
   beforeEach(() => {
     setMessage = vi.fn();
     setPopupType = vi.fn();
+    navigate = vi.fn();
     vi.useFakeTimers();
   });
 
@@ -26,7 +27,8 @@ describe("ApiFunctions", () => {
       await ApiFunctions.handleCreateUserSubmit(
         userData,
         setMessage,
-        setPopupType
+        setPopupType,
+        navigate
       );
 
       expect(setMessage).toHaveBeenCalledWith("User created successfully!");
@@ -70,7 +72,12 @@ describe("ApiFunctions", () => {
       };
       FetchWithAlert.mockResolvedValueOnce(mockResponse);
 
-      await ApiFunctions.handleLoginSubmit(userData, setMessage, setPopupType);
+      await ApiFunctions.handleLoginSubmit(
+        userData,
+        setMessage,
+        setPopupType,
+        navigate
+      );
 
       expect(setMessage).toHaveBeenCalledWith("Logged in successfully!");
       expect(setPopupType).toHaveBeenCalledWith({

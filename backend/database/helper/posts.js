@@ -43,12 +43,21 @@ async function getPostsByUserID(db, userID) {
 }
 
 /**
- * Retrieve all posts, ordered by creation timestamp (latest post first)
+ * Retrieve all posts, including the username of the author, ordered by creation timestamp (latest post first)
  * @param {database} db - Database connection instance
- * @returns {Promise<Array>} - Resolves with an array of posts, sorted by created_at in descending order
+ * @returns {Promise<Array>} - Resolves with an array of posts, each including the author's username, sorted by created_at in descending order
  */
 async function getAllPosts(db) {
-  return await db("posts").orderBy("created_at", "desc");
+  return await db("posts")
+    .join("users", "posts.user_id", "=", "users.id")
+    .select(
+      "posts.id",
+      "posts.created_at",
+      "posts.updated_at",
+      "posts.post",
+      "users.username"
+    )
+    .orderBy("created_at", "desc");
 }
 
 /**

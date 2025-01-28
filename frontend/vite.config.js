@@ -8,6 +8,10 @@ export default defineConfig({
     proxy: {
       "/v1": "http://localhost:8080",
     },
+    sourcemap: true,
+  },
+  build: {
+    sourcemap: false,
   },
   test: {
     watch: false,

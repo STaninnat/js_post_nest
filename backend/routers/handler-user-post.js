@@ -22,8 +22,8 @@ async function handlerPostCreate(req, res) {
   try {
     const userPost = {
       id: uuidv4(),
-      createdAt: dayjs().toDate(),
-      updatedAt: dayjs().toDate(),
+      createdAt: dayjs.tz().toDate(),
+      updatedAt: dayjs.tz().toDate(),
       post,
       userID: user.id,
     };
@@ -99,7 +99,7 @@ async function handlerPostsEdit(req, res) {
     }
     await queriesUsersPost.updatePost(db, postID, {
       post,
-      updatedAt: dayjs().toDate(),
+      updatedAt: dayjs.tz().toDate(),
     });
 
     return respondWithJSON(res, 200, { message: "Post updated successfully" });

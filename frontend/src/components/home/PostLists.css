@@ -1,0 +1,31 @@
+.home-post-list {
+  margin-top: var(--24px);
+}
+
+.home-post-item {
+  color: white;
+  border: 1px solid red;
+  border-radius: var(--10px);
+  padding: var(--16px);
+  margin-bottom: var(--16px);
+  background-color: hsl(208, 80%, 91%);
+}
+
+.home-post-username {
+  font-size: var(--20px);
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.home-post-meta {
+  font-size: var(--10px);
+  letter-spacing: 0.3px;
+}
+
+.home-post-meta span {
+  margin-left: 10px;
+}
+
+.home-post-content {
+  font-size: var(--16px);
+}

@@ -46,12 +46,12 @@ async function handlerUserCreate(req, res) {
 
     const { hashedApiKey } = await hashAPIKey();
 
-    const apiKeyExpiresAt = dayjs().add(30, "day").toDate();
+    const apiKeyExpiresAt = dayjs.tz().add(30, "day").toDate();
 
     await queriesUsers.createUser(db, {
       id: uuidv4(),
-      createdAt: dayjs().toDate(),
-      updatedAt: dayjs().toDate(),
+      createdAt: dayjs.tz().toDate(),
+      updatedAt: dayjs.tz().toDate(),
       username,
       password: hashedPassword,
       gender: userGender,
@@ -69,14 +69,14 @@ async function handlerUserCreate(req, res) {
       return respondWithError(res, 500, "invalid user ID");
     }
 
-    const jwtExpiresAt = dayjs().add(15, "minute").toDate();
+    const jwtExpiresAt = dayjs.tz().add(15, "minute").toDate();
     const jwtToken = generateJWTToken(
       { id: userID, api_key: hashedApiKey },
       jwtExpiresAt,
       "jwtToken"
     );
 
-    const refreshTokenExpiresAt = dayjs().add(30, "day").toDate();
+    const refreshTokenExpiresAt = dayjs.tz().add(30, "day").toDate();
     const refreshToken = generateJWTToken(
       { id: userID, api_key: hashedApiKey },
       refreshTokenExpiresAt,
@@ -85,8 +85,8 @@ async function handlerUserCreate(req, res) {
 
     await queriesUsersKey.createUserRFKey(db, {
       id: uuidv4(),
-      createdAt: dayjs().toDate(),
-      updatedAt: dayjs().toDate(),
+      createdAt: dayjs.tz().toDate(),
+      updatedAt: dayjs.tz().toDate(),
       accessTokenExpiresAt: jwtExpiresAt,
       refreshToken,
       refreshTokenExpiresAt,

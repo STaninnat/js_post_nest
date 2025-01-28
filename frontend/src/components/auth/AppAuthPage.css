@@ -1,29 +1,30 @@
-.app-home-section {
+.app-auth-section {
   display: flex;
   height: 100dvh;
 }
 
-.app-home-left {
+.app-auth-left {
   flex: 5;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.app-home-ghost {
+.app-auth-ghost {
   height: 70%;
   max-height: var(--608px);
   width: auto;
+  background-color: transparent;
 }
 
-.app-home-right {
+.app-auth-right {
   flex: 5;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
 
-.app-home-container {
+.app-auth-container {
   color: white;
   padding: var(--32px);
   border: var(--4px) solid hsl(240, 30%, 3%);
@@ -36,25 +37,25 @@
   justify-content: center;
 }
 
-.app-home-container h1 {
+.app-auth-container h1 {
   font-weight: 800;
   font-size: var(--64px);
   letter-spacing: 0.6px;
 }
 
-.app-home-container h2 {
+.app-auth-container h2 {
   font-weight: 600;
   font-size: var(--32px);
   margin-top: var(--48px);
   letter-spacing: 0.3px;
 }
 
-.app-home-container h3 {
+.app-auth-container h3 {
   font-size: var(--16px);
   margin-top: var(--32px);
 }
 
-.app-home-container button {
+.app-auth-container button {
   color: white;
   padding: var(--12px);
   width: var(--280px);
