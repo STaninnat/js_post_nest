@@ -1,15 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import AppHeader from "../templates/AppHeader";
 import AppLayout from "../templates/AppLayout";
 import ApiFunctions from "../ApiFunctions";
+import PostLists from "./PostLists";
 
 import "./AppHome.css";
 
 function AppHome() {
-  const [postContent, setPostContent] = useState("");
+  const [posts, setPosts] = useState([]);
   const [message, setMessage] = useState("");
+  const [postContent, setPostContent] = useState("");
   const [messageType, setMessageType] = useState("");
+
+  const getPosts = async () => {
+    try {
+      const response = await ApiFunctions.handleGetPosts();
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(data.posts);
+      } else {
+        setMessage("failed to get post");
+      }
+    } catch (error) {
+      console.error("error fetching posts: ", error);
+      setMessage("an error occurred while loading posts");
+    }
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
 
   const handlePost = async () => {
     if (!postContent.trim()) {
@@ -23,6 +44,7 @@ function AppHome() {
         setMessage("Post created successfully");
         setMessageType("success");
         setPostContent("");
+        getPosts();
         setTimeout(() => {
           setMessage("");
         }, 1000);
@@ -31,8 +53,8 @@ function AppHome() {
         setMessageType("error");
       }
     } catch (error) {
-      console.error("Error creating post:", error);
-      setMessage("An error occurred");
+      console.error("error creating post:", error);
+      setMessage("an error occurred");
       setMessageType("error");
     }
   };
@@ -76,6 +98,8 @@ function AppHome() {
 
           <hr className="home-seperator" />
         </div>
+
+        <PostLists posts={posts || []} message={message} />
       </AppLayout>
     </div>
   );

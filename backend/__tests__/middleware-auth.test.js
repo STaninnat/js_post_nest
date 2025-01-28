@@ -2,11 +2,17 @@ const dayjs = require("dayjs");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const request = require("supertest");
+const utc = require("dayjs/plugin/utc");
+const timezone = require("dayjs/plugin/timezone");
 
 const cookieParser = require("cookie-parser");
 
 const middlewareAuth = require("../middleware/auth");
 const queriesUsers = require("../database/helper/users");
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Bangkok");
 
 jest.mock("../database/helper/users", () => ({
   getUserByID: jest.fn(),
@@ -88,7 +94,7 @@ describe("middlewareAuth", () => {
   it("should return error if API key is expired", async () => {
     const validToken = jwt.sign({ id: 1 }, jwtSecret, { expiresIn: "1h" });
     queriesUsers.getUserByID.mockResolvedValue({
-      api_key_expires_at: dayjs().subtract(1, "year").toISOString(),
+      api_key_expires_at: dayjs.tz().subtract(1, "year").toISOString(),
     });
 
     app.use((req, res, next) => {
@@ -105,7 +111,7 @@ describe("middlewareAuth", () => {
   it("should call next() if everything is valid", async () => {
     const validToken = jwt.sign({ id: 1 }, jwtSecret, { expiresIn: "1h" });
     queriesUsers.getUserByID.mockResolvedValue({
-      api_key_expires_at: dayjs().add(1, "day").toISOString(),
+      api_key_expires_at: dayjs.tz().add(1, "day").toISOString(),
     });
 
     const nextMiddleware = jest.fn((req, res) =>

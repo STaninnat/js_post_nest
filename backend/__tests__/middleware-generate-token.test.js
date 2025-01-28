@@ -1,5 +1,11 @@
 const dayjs = require("dayjs");
 const jwt = require("jsonwebtoken");
+const utc = require("dayjs/plugin/utc");
+const timezone = require("dayjs/plugin/timezone");
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault("Asia/Bangkok");
 
 const {
   isValidUserName,
@@ -56,7 +62,7 @@ describe("Utils Test Suite", () => {
       const payload = { id: 1, api_key: hashedApiKey };
       const token = generateJWTToken(
         payload,
-        dayjs().add(15, "minute").toDate(),
+        dayjs.tz().add(15, "minute").toDate(),
         "jwtToken"
       );
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -66,7 +72,7 @@ describe("Utils Test Suite", () => {
     it("should throw an error if the secret is missing", () => {
       delete process.env.JWT_SECRET;
       expect(() =>
-        generateJWTToken({}, dayjs().add(15, "minute").toDate(), "jwtToken")
+        generateJWTToken({}, dayjs.tz().add(15, "minute").toDate(), "jwtToken")
       ).toThrow("jwt or refresh secret is not defined");
     });
   });

@@ -36,7 +36,7 @@ function generateJWTToken(payload, expiresAt, keyType) {
     throw new Error("jwt or refresh secret is not defined");
   }
 
-  const expiresIn = dayjs(expiresAt).diff(dayjs(), "second");
+  const expiresIn = dayjs.tz(expiresAt).diff(dayjs.tz(), "second");
 
   return jwt.sign(payload, secret, { expiresIn });
 }

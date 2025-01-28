@@ -22,22 +22,22 @@ async function handlerRefreshKey(req, res) {
     const user = await queriesUsersKey.getUserByRFKey(db, refreshToken);
     if (
       !user ||
-      dayjs(user.refresh_token_expires_at).isBefore(dayjs().toDate())
+      dayjs.tz(user.refresh_token_expires_at).isBefore(dayjs.tz().toDate())
     ) {
       return respondWithError(res, 401, "invalid or expired refresh token");
     }
 
     const { hashedApiKey: newHashedApiKey } = await hashAPIKey();
-    const newApiKeyExpiresAt = dayjs().add(3, "month").toDate();
+    const newApiKeyExpiresAt = dayjs.tz().add(3, "month").toDate();
 
     await queriesUsers.updateUser(db, {
       id: user.user_id,
-      updatedAt: dayjs().toDate(),
+      updatedAt: dayjs.tz().toDate(),
       apiKey: newHashedApiKey,
       apiKeyExpiresAt: newApiKeyExpiresAt,
     });
 
-    const newJwtTokenExpiresAt = dayjs().add(1, "hour").toDate();
+    const newJwtTokenExpiresAt = dayjs.tz().add(1, "hour").toDate();
     const newJwtToken = generateJWTToken(
       { id: user.user_id, api_key: newHashedApiKey },
       newJwtTokenExpiresAt,
@@ -45,7 +45,7 @@ async function handlerRefreshKey(req, res) {
     );
 
     let newRefreshToken = refreshToken;
-    const newRefreshTokenExpiresAt = dayjs().add(30, "day").toDate();
+    const newRefreshTokenExpiresAt = dayjs.tz().add(30, "day").toDate();
     if (
       typeof refreshToken === "string" &&
       newRefreshToken.startsWith("expired-")
@@ -58,7 +58,7 @@ async function handlerRefreshKey(req, res) {
     }
 
     await queriesUsersKey.updateUserRFKey(db, {
-      updatedAt: dayjs().toDate(),
+      updatedAt: dayjs.tz().toDate(),
       accessTokenExpiresAt: newJwtTokenExpiresAt,
       refreshToken: newRefreshToken,
       refreshTokenExpiresAt: newRefreshTokenExpiresAt,

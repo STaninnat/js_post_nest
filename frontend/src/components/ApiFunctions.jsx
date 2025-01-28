@@ -98,9 +98,29 @@ async function handleCreatePost(postContent) {
 
     return response;
   } catch (error) {
-    console.error("Error in createPost:", error);
+    console.error("error in createPost:", error);
     throw error;
   }
 }
 
-export default { handleCreateUserSubmit, handleLoginSubmit, handleCreatePost };
+async function handleGetPosts() {
+  try {
+    const url = "/v1/user/auth/allposts";
+    const response = await FetchWithAlert(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    return response;
+  } catch (error) {
+    console.error("error in getPost: ", error);
+    throw error;
+  }
+}
+
+export default {
+  handleCreateUserSubmit,
+  handleLoginSubmit,
+  handleCreatePost,
+  handleGetPosts,
+};

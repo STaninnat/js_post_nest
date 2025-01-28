@@ -19,18 +19,18 @@ async function handlerLogout(req, res) {
   }
 
   try {
-    const newKeyExpiredAt = dayjs().subtract(1, "year").toDate();
+    const newKeyExpiredAt = dayjs.tz().subtract(1, "year").toDate();
     const newExpiredKey = "expired-" + uuidv4().slice(0, 28);
 
     await queriesUsers.updateUser(db, {
       id: user.id,
-      updatedAt: dayjs().toDate(),
+      updatedAt: dayjs.tz().toDate(),
       apiKey: newExpiredKey,
       apiKeyExpiresAt: newKeyExpiredAt,
     });
 
     await queriesUsersKey.updateUserRFKey(db, {
-      updatedAt: dayjs().toDate(),
+      updatedAt: dayjs.tz().toDate(),
       accessTokenExpiresAt: newKeyExpiredAt,
       refreshToken: newExpiredKey,
       refreshTokenExpiresAt: newKeyExpiredAt,
