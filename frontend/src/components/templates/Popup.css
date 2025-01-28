@@ -45,6 +45,7 @@
   right: var(--16px);
   font-size: var(--24px);
   color: hsla(0, 0%, 100%, 0.8);
+  background-color: transparent;
   cursor: pointer;
 }
 

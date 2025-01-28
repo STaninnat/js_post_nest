@@ -17,7 +17,7 @@ describe("AppAuthPage", () => {
   it('should open Sign In popup when the "Sign in" button is clicked', () => {
     const { getByRole, getByTestId } = render(<AppAuthPage />);
 
-    fireEvent.click(getByTestId("home-signin-button"));
+    fireEvent.click(getByTestId("auth-signin-button"));
     const popup = getByRole("popup-dialog");
     const header = within(popup).getByTestId("popup-header");
 

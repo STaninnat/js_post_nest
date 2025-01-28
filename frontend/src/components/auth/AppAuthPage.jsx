@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "./AppAuthPage.css";
 import LoginForm from "./LoginForm";
@@ -7,6 +8,8 @@ import ApiFunctions from "../ApiFunctions";
 import CreateUserForm from "./CreateUserForm";
 
 function AppAuthPage() {
+  const navigate = useNavigate();
+
   const [popupType, setPopupType] = useState({ type: null, error: null });
   const [message, setMessage] = useState("");
 
@@ -15,12 +18,22 @@ function AppAuthPage() {
     setMessage("");
   };
 
-  const handleCreateUserSubmit = (userData) => {
-    ApiFunctions.handleCreateUserSubmit(userData, setMessage, setPopupType);
+  const handleCreateUserSubmit = async (userData) => {
+    await ApiFunctions.handleCreateUserSubmit(
+      userData,
+      setMessage,
+      setPopupType,
+      navigate
+    );
   };
 
-  const handleLoginSubmit = (userData) => {
-    ApiFunctions.handleLoginSubmit(userData, setMessage, setPopupType);
+  const handleLoginSubmit = async (userData) => {
+    await ApiFunctions.handleLoginSubmit(
+      userData,
+      setMessage,
+      setPopupType,
+      navigate
+    );
   };
 
   const formClass =
@@ -31,12 +44,16 @@ function AppAuthPage() {
       : "form-container-default";
 
   return (
-    <div className="app-home-section">
-      <div className="app-home-left">
-        <img className="app-home-ghost" src="/images/ghost.png" alt="ghost" />
+    <div className="app-auth-section">
+      <div className="app-auth-left">
+        <img
+          className="app-auth-ghost"
+          src="/images/ghost.png"
+          alt="auth-ghost"
+        />
       </div>
-      <div className="app-home-right">
-        <div className="app-home-container">
+      <div className="app-auth-right">
+        <div className="app-auth-container">
           <h1>Currently happening</h1>
           <h2>Be part of it today!</h2>
           <button
@@ -48,7 +65,7 @@ function AppAuthPage() {
           <h3>Already have an account?</h3>
           <button
             id="btn-user-signin"
-            data-testid="home-signin-button"
+            data-testid="auth-signin-button"
             onClick={() => setPopupType({ type: "login", error: null })}
           >
             Sign in

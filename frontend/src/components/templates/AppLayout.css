@@ -1,8 +1,8 @@
-.layout-page-section {
-  padding: var(--24px);
+.layout-app-section {
+  padding: var(--48px);
 }
-  
-.layout-page-container {
+
+.layout-app-container {
   max-width: var(--1200px);
   margin-left: auto;
   margin-right: auto;

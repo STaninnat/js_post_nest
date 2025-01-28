@@ -1,0 +1,46 @@
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: var(--32px);
+  height: var(--80px);
+  background-color: hsl(240, 90%, 3%);
+  box-shadow: 0 var(--4px) var(--8px) hsl(0, 0%, 60%, 0.2);
+}
+nav i {
+  color: hsl(208, 80%, 91%);
+  background-color: transparent;
+  cursor: pointer;
+}
+nav i:hover {
+  filter: brightness(1.3);
+  transition: opacity 0.3s ease;
+}
+
+.app-header-ghost {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  left: var(--48px);
+  height: var(--56px);
+  width: auto;
+  cursor: pointer;
+}
+
+.header-home-icon {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--40px);
+}
+
+.proflie-logout-group {
+  position: absolute;
+  right: var(--32px);
+  display: flex;
+  align-items: center;
+  gap: var(--16px);
+  font-size: var(--40px);
+  background-color: transparent;
+}

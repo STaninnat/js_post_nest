@@ -1,0 +1,74 @@
+.home-post-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /* background-color: yellow; */
+}
+
+.home-post-textarea {
+  width: 70%;
+  height: var(--100px);
+  padding: var(--24px);
+  font-size: var(--16px);
+  border: var(--4px) solid hsl(240, 90%, 3%);
+  box-shadow: 0 var(--4px) var(--8px) hsl(0, 0%, 60%, 0.2);
+  border-radius: var(--10px);
+  background-color: hsl(208, 80%, 91%);
+  resize: none;
+}
+
+.home-post-textarea:focus {
+  outline: none;
+  border: var(--4px) solid hsl(240, 90%, 15%);
+}
+
+.home-post-btn {
+  margin-top: var(--24px);
+  padding: var(--10px);
+  width: var(--100px);
+  background-color: hsl(208, 80%, 91%);
+  color: hsl(240, 30%, 3%);
+  font-weight: 600;
+  font-size: var(--16px);
+  letter-spacing: 0.3px;
+  border: none;
+  border-radius: var(--8px);
+  cursor: pointer;
+}
+
+.home-post-btn:hover {
+  filter: brightness(1.2);
+  transition: opacity 0.3s ease;
+}
+
+.home-post-btn:disabled {
+  background-color: hsl(0, 0%, 80%);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.home-seperator {
+  width: 100%;
+  margin: var(--24px) 0;
+  border: none;
+  height: 1.5px;
+  background-color: hsl(208, 80%, 91%);
+}
+
+.home-message {
+  margin-top: var(--8px);
+  font-size: var(--12px);
+  background-color: hsl(355, 70%, 91%);
+  padding: var(--8px);
+  text-align: center;
+  border-radius: var(--8px);
+}
+
+.home-message.success {
+  color: green;
+}
+
+.home-message.error {
+  color: red;
+}

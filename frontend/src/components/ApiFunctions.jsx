@@ -1,6 +1,11 @@
 import FetchWithAlert from "./FetchWithAlert";
 
-async function handleCreateUserSubmit(userData, setMessage, setPopupType) {
+async function handleCreateUserSubmit(
+  userData,
+  setMessage,
+  setPopupType,
+  navigate
+) {
   try {
     const url = "/v1/user/signup";
     const response = await FetchWithAlert(url, {
@@ -26,6 +31,7 @@ async function handleCreateUserSubmit(userData, setMessage, setPopupType) {
     setTimeout(() => {
       setPopupType({ type: null, error: null });
       setMessage("");
+      navigate("/home");
     }, 1500);
   } catch (error) {
     setMessage("");
@@ -36,7 +42,7 @@ async function handleCreateUserSubmit(userData, setMessage, setPopupType) {
   }
 }
 
-async function handleLoginSubmit(userData, setMessage, setPopupType) {
+async function handleLoginSubmit(userData, setMessage, setPopupType, navigate) {
   try {
     const url = "v1/user/signin";
     const response = await FetchWithAlert(url, {
@@ -62,6 +68,7 @@ async function handleLoginSubmit(userData, setMessage, setPopupType) {
     setTimeout(() => {
       setPopupType({ type: null, error: null });
       setMessage("");
+      navigate("/home");
     }, 1500);
   } catch (error) {
     setMessage("");
@@ -72,4 +79,28 @@ async function handleLoginSubmit(userData, setMessage, setPopupType) {
   }
 }
 
-export default { handleCreateUserSubmit, handleLoginSubmit };
+async function handleCreatePost(postContent) {
+  try {
+    const url = "/v1/user/auth/posts";
+    const response = await FetchWithAlert(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ post: postContent }),
+    });
+
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.error || "Unexpected error.");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error in createPost:", error);
+    throw error;
+  }
+}
+
+export default { handleCreateUserSubmit, handleLoginSubmit, handleCreatePost };
