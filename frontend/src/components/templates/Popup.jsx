@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import "remixicon/fonts/remixicon.css";
+
 import "./Popup.css";
 
 function Popup(props) {

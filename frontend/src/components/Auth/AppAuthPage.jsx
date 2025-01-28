@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import "./AppHome.css";
-import Popup from "./Popup";
+import "./AppAuthPage.css";
 import LoginForm from "./LoginForm";
+import Popup from "../templates/Popup";
+import ApiFunctions from "../ApiFunctions";
 import CreateUserForm from "./CreateUserForm";
-import ApiFunctions from "./ApiFunctions";
 
 function AppHome() {
   const [popupType, setPopupType] = useState({ type: null, error: null });

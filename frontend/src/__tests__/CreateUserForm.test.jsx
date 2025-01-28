@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
 
-import CreateUserForm from "../components/CreateUserForm";
+import CreateUserForm from "../components/Auth/CreateUserForm";
 
 describe("CreateUserForm", () => {
   const defaultProps = {
