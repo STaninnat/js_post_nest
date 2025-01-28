@@ -1,7 +1,7 @@
 import "./global.css";
 import { Route, Routes } from "react-router-dom";
 
-import AppAuthPage from "./components/Auth/AppAuthPage";
+import AppAuthPage from "./components/auth/AppAuthPage";
 
 function App() {
   return (
