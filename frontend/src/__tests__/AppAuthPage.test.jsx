@@ -1,21 +1,21 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, fireEvent, within } from "@testing-library/react";
 
-import AppHome from "../components/AppHome";
 import ApiFunctions from "../components/ApiFunctions";
+import AppAuthPage from "../components/Auth/AppAuthPage";
 
 vi.mock("../components/ApiFunctions");
 
-describe("AppHome", () => {
+describe("AppAuthPage", () => {
   it('should open Create Account popup when the "Create account" button is clicked', () => {
-    const { getByText } = render(<AppHome />);
+    const { getByText } = render(<AppAuthPage />);
 
     fireEvent.click(getByText(/Create account/i));
     expect(getByText(/Create your account/i)).toBeInTheDocument();
   });
 
   it('should open Sign In popup when the "Sign in" button is clicked', () => {
-    const { getByRole, getByTestId } = render(<AppHome />);
+    const { getByRole, getByTestId } = render(<AppAuthPage />);
 
     fireEvent.click(getByTestId("home-signin-button"));
     const popup = getByRole("popup-dialog");
@@ -26,7 +26,7 @@ describe("AppHome", () => {
   });
 
   it("should close the popup when the close button is clicked", () => {
-    const { getByText, getByRole, getByLabelText } = render(<AppHome />);
+    const { getByText, getByRole, getByLabelText } = render(<AppAuthPage />);
 
     fireEvent.click(getByText(/Create account/i));
     fireEvent.click(getByLabelText(/close/i));
@@ -36,7 +36,7 @@ describe("AppHome", () => {
 
   it("should call handleCreateUserSubmit when form is submitted with valid data", () => {
     ApiFunctions.handleCreateUserSubmit.mockResolvedValueOnce({});
-    const { getByText, getByLabelText, getByRole } = render(<AppHome />);
+    const { getByText, getByLabelText, getByRole } = render(<AppAuthPage />);
 
     fireEvent.click(getByText(/Create account/i));
 
@@ -62,7 +62,7 @@ describe("AppHome", () => {
 
   it("should call handleLoginSubmit when form is submitted with valid data", () => {
     ApiFunctions.handleLoginSubmit.mockResolvedValueOnce({});
-    const { getByText, getByLabelText, getByRole } = render(<AppHome />);
+    const { getByText, getByLabelText, getByRole } = render(<AppAuthPage />);
 
     fireEvent.click(getByText(/Sign in/i));
 

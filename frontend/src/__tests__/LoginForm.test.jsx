@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
 
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/Auth/LoginForm";
 
 describe("LoginForm", () => {
   const defaultProps = {

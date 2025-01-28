@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/react";
 
-import Popup from "../components/Popup";
+import Popup from "../components/templates/Popup";
 
 describe("Popup Component", () => {
   it("should render correctly when visible", () => {

@@ -1,5 +1,6 @@
-import "./AppLayout.css";
 import PropTypes from "prop-types";
+
+import "./AppLayout.css";
 
 function AppLayout(props) {
   return (

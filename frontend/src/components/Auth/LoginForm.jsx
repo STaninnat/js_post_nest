@@ -1,8 +1,9 @@
-import PropTypes from "prop-types";
-import "./Popup.css";
 import { useState } from "react";
+import PropTypes from "prop-types";
 
-function CreateUserForm(props) {
+import "../templates/Popup.css";
+
+function LoginForm(props) {
   const {
     onSubmit,
     formClass,
@@ -12,24 +13,9 @@ function CreateUserForm(props) {
     popupType,
   } = props;
 
-  const [gender, setGender] = useState("default");
-  const [termsChecked, setTermsChecked] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleGenderBlur = () => {
-    if (gender === "") {
-      setGender("default");
-    }
-  };
-
-  const handleGenderChange = (e) => {
-    setGender(e.target.value);
-  };
-
-  const handleCheckboxChange = () => {
-    setTermsChecked(!termsChecked);
-  };
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -41,24 +27,26 @@ function CreateUserForm(props) {
     setPopupType({ type: popupType?.type, error: null });
   };
 
+  const handleRememberMeChange = (e) => {
+    setRememberMe(e.target.checked);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const genderValue = gender === "default" ? "" : gender;
 
     const formData = {
       username,
       password,
-      gender: genderValue,
+      rememberMe,
     };
 
     onSubmit(formData);
-    setPopupType({ type: null, error: null });
+    setRememberMe(false);
   };
 
   return (
     <form
-      data-testid="create-user-form"
+      data-testid="login-form"
       onSubmit={handleSubmit}
       className={`form-container ${formClass}`}
       autoComplete="off"
@@ -87,45 +75,30 @@ function CreateUserForm(props) {
         />
       </label>
 
-      <label>
-        <h3>Gender:</h3>
-        <select
-          name="gender"
-          value={gender}
-          onChange={handleGenderChange}
-          onBlur={handleGenderBlur}
-        >
-          <option value="default" disabled>
-            Select Gender
-          </option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-      </label>
-
-      <label className="terms-conditions">
+      <label className="rememberme-conditions">
         <input
           type="checkbox"
-          checked={termsChecked}
-          onChange={handleCheckboxChange}
+          checked={rememberMe}
+          onChange={handleRememberMeChange}
         />
-        <span>
-          I agree to the terms and conditions and privacy policy (mock)
-        </span>
+        <span>Remember me?</span>
       </label>
 
       {externalError && <p className="error-message">{externalError}</p>}
       {message && <p className="complete-message">{message}</p>}
 
-      <button type="submit" disabled={!username || !password || !termsChecked}>
-        Create account
+      <button
+        data-testid="loginform-signin-button"
+        type="submit"
+        disabled={!username || !password}
+      >
+        Sign In
       </button>
     </form>
   );
 }
 
-CreateUserForm.propTypes = {
+LoginForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   formClass: PropTypes.string,
   message: PropTypes.string,
@@ -134,4 +107,4 @@ CreateUserForm.propTypes = {
   popupType: PropTypes.object.isRequired,
 };
 
-export default CreateUserForm;
+export default LoginForm;
