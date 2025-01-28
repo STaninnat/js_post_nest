@@ -6,7 +6,7 @@ import Popup from "../templates/Popup";
 import ApiFunctions from "../ApiFunctions";
 import CreateUserForm from "./CreateUserForm";
 
-function AppHome() {
+function AppAuthPage() {
   const [popupType, setPopupType] = useState({ type: null, error: null });
   const [message, setMessage] = useState("");
 
@@ -87,4 +87,4 @@ function AppHome() {
   );
 }
 
-export default AppHome;
+export default AppAuthPage;
