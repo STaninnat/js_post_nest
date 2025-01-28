@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render, fireEvent, within } from "@testing-library/react";
 
 import ApiFunctions from "../components/ApiFunctions";
-import AppAuthPage from "../components/Auth/AppAuthPage";
+import AppAuthPage from "../components/auth/AppAuthPage";
 
 vi.mock("../components/ApiFunctions");
 
