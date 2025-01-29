@@ -38,7 +38,7 @@ async function getComments(db) {
       "comments.post_id",
       "users.username"
     )
-    .orderBy("comments.updated_at", "desc");
+    .orderBy("comments.created_at", "desc");
 }
 
 module.exports = { createComment, getComments };
