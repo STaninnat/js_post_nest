@@ -17,7 +17,7 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<AppAuthPage />} />
-        <Route path="/home" element={<AppHome />} />
+        <Route path="home/" element={<AppHome />} />
       </Routes>
     </div>
   );

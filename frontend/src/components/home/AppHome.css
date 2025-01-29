@@ -7,11 +7,11 @@
 
 .home-post-textarea {
   width: 70%;
-  height: var(--100px);
-  padding: var(--24px);
-  font-size: var(--16px);
-  border: var(--4px) solid hsl(240, 90%, 3%);
-  box-shadow: 0 var(--4px) var(--8px) hsl(0, 0%, 60%, 0.2);
+  height: var(--88px);
+  padding: var(--14px);
+  font-size: var(--12px);
+  border: 2px solid hsl(240, 90%, 3%);
+  box-shadow: 0 1px var(--8px) hsl(0, 0%, 60%, 0.15);
   border-radius: var(--10px);
   background-color: hsl(208, 80%, 91%);
   resize: none;
@@ -19,17 +19,17 @@
 
 .home-post-textarea:focus {
   outline: none;
-  border: var(--4px) solid hsl(240, 90%, 15%);
+  border: 2px solid hsl(240, 90%, 15%);
 }
 
 .home-post-btn {
-  margin-top: var(--24px);
-  padding: var(--10px);
-  width: var(--100px);
+  margin-top: var(--16px);
+  padding: var(--8px);
+  width: var(--88px);
   background-color: hsl(208, 80%, 91%);
   color: hsl(240, 30%, 3%);
   font-weight: 600;
-  font-size: var(--16px);
+  font-size: var(--12px);
   letter-spacing: 0.3px;
   border: none;
   border-radius: var(--8px);
@@ -49,25 +49,31 @@
 
 .home-seperator {
   width: 100%;
-  margin: var(--24px) 0;
+  margin: var(--14px) 0;
+  outline: none;
   border: none;
-  height: 1.5px;
+  height: 0.8px;
   background-color: hsl(208, 80%, 91%);
+}
+
+.home-message-container {
+  min-height: var(--28px);
 }
 
 .home-message {
   margin-top: var(--8px);
-  font-size: var(--12px);
-  background-color: hsl(355, 70%, 91%);
-  padding: var(--8px);
+  font-size: var(--10px);
+  padding: var(--4px);
   text-align: center;
-  border-radius: var(--8px);
+  border-radius: 2px;
 }
 
 .home-message.success {
   color: green;
+  background-color: hsl(139, 84%, 88%);
 }
 
 .home-message.error {
   color: red;
+  background-color: hsl(355, 70%, 91%);
 }

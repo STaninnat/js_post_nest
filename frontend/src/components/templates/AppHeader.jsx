@@ -1,8 +1,11 @@
 import "remixicon/fonts/remixicon.css";
+import { useNavigate } from "react-router-dom";
 
 import "./AppHeader.css";
 
 function AppHeader() {
+  const navigate = useNavigate();
+
   return (
     <nav>
       <img
@@ -15,6 +18,7 @@ function AppHeader() {
         role="header-home-btn"
         alt="Home"
         title="Go to Homepage"
+        onClick={() => navigate("/home")}
       ></i>
       <div className="proflie-logout-group">
         <i
@@ -28,6 +32,7 @@ function AppHeader() {
           role="header-logout-btn"
           alt="Logout"
           title="Logout"
+          onClick={() => navigate("/")}
         ></i>
       </div>
     </nav>
