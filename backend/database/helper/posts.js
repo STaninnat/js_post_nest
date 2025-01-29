@@ -57,7 +57,7 @@ async function getAllPosts(db) {
       "posts.post",
       "users.username"
     )
-    .orderBy("created_at", "desc");
+    .orderBy("posts.updated_at", "desc");
 }
 
 /**
