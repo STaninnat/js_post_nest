@@ -13,7 +13,7 @@ function PostLists(props) {
             <div className="home-post-user">
               <span className="home-post-username">{post.username}</span>
               <span className="home-post-meta">
-                {dayjs(post.created_at).format("D MMM YYYY - H:mm")}
+                {dayjs(post.updated_at).format("D MMM YYYY - H:mm")}
               </span>
             </div>
             <p className="home-post-content">{post.post}</p>
