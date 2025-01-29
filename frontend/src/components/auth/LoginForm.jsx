@@ -84,8 +84,10 @@ function LoginForm(props) {
         <span>Remember me?</span>
       </label>
 
-      {externalError && <p className="error-message">{externalError}</p>}
-      {message && <p className="complete-message">{message}</p>}
+      <div className="form-login-message">
+        {externalError && <p className="error-message">{externalError}</p>}
+        {message && <p className="complete-message">{message}</p>}
+      </div>
 
       <button
         data-testid="loginform-signin-button"

@@ -12,15 +12,15 @@ function PostLists(props) {
           <div key={post.id} className="home-post-item">
             <div className="home-post-user">
               <span className="home-post-username">{post.username}</span>
+              <span className="home-post-meta">
+                {dayjs(post.created_at).format("D MMM YYYY - H:mm")}
+              </span>
             </div>
-            <p className="home-post-meta">
-              <span>{dayjs(post.created_at).format("D MMM YYYY - H:mm")}</span>
-            </p>
             <p className="home-post-content">{post.post}</p>
           </div>
         ))
       ) : (
-        <p>{message || "No posts available"}</p>
+        <p className="home-error-message">{message || "No posts available"}</p>
       )}
     </div>
   );

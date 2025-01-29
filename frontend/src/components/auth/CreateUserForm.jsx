@@ -54,7 +54,6 @@ function CreateUserForm(props) {
     };
 
     onSubmit(formData);
-    setPopupType({ type: null, error: null });
   };
 
   return (
@@ -116,8 +115,10 @@ function CreateUserForm(props) {
         </span>
       </label>
 
-      {externalError && <p className="error-message">{externalError}</p>}
-      {message && <p className="complete-message">{message}</p>}
+      <div className="form-create-message">
+        {externalError && <p className="error-message">{externalError}</p>}
+        {message && <p className="complete-message">{message}</p>}
+      </div>
 
       <button type="submit" disabled={!username || !password || !termsChecked}>
         Create account

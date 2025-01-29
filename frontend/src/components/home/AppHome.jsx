@@ -87,14 +87,16 @@ function AppHome() {
             Post
           </button>
 
-          {message && (
-            <p
-              className={`home-message ${messageType}`}
-              data-testid="home-message"
-            >
-              {message}
-            </p>
-          )}
+          <div className="home-message-container">
+            {message && (
+              <p
+                className={`home-message ${messageType}`}
+                data-testid="home-message"
+              >
+                {message}
+              </p>
+            )}
+          </div>
 
           <hr className="home-seperator" />
         </div>

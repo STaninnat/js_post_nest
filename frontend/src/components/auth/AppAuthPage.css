@@ -1,10 +1,11 @@
 .app-auth-section {
   display: flex;
   height: 100dvh;
+  user-select: none;
 }
 
 .app-auth-left {
-  flex: 5;
+  flex: 6;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,58 +19,63 @@
 }
 
 .app-auth-right {
-  flex: 5;
+  flex: 4;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  overflow: auto;
 }
 
 .app-auth-container {
   color: white;
-  padding: var(--32px);
+  padding: var(--4px) var(--24px);
   border: var(--4px) solid hsl(240, 30%, 3%);
-  border-radius: var(--48px);
+  border-radius: var(--32px);
   box-shadow: var(--4px) var(--4px) var(--16px) hsl(0, 0%, 0%);
-  width: var(--720px);
-  height: var(--448px);
+  width: 100%;
+  height: auto;
+  max-width: 75%;
+  max-height: 60vh;
+  min-width: var(--400px);
+  min-height: var(--336px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 .app-auth-container h1 {
+  margin-top: var(--14px);
   font-weight: 800;
-  font-size: var(--64px);
-  letter-spacing: 0.6px;
+  font-size: var(--32px);
+  letter-spacing: 0.5px;
 }
 
 .app-auth-container h2 {
   font-weight: 600;
-  font-size: var(--32px);
-  margin-top: var(--48px);
+  font-size: var(--20px);
+  margin-top: var(--40px);
   letter-spacing: 0.3px;
 }
 
 .app-auth-container h3 {
   font-size: var(--16px);
-  margin-top: var(--32px);
+  margin-top: var(--40px);
 }
 
 .app-auth-container button {
   color: white;
-  padding: var(--12px);
-  width: var(--280px);
+  padding: var(--8px);
+  width: var(--224px);
   align-self: flex-start;
   border-radius: var(--24px);
   text-align: center;
   font-weight: 500;
-  font-size: var(--16px);
+  font-size: var(--14px);
   transition: transform 0.6s ease;
   cursor: pointer;
 }
 
 #btn-user-create {
-  margin-top: var(--32px);
+  margin-top: var(--24px);
   background-color: hsl(252, 58%, 18%);
   border: var(--4px) solid hsl(252, 58%, 18%);
 }
