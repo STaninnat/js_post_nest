@@ -12,6 +12,7 @@ const handlerUser = require("./handler-user-create");
 const handlerUserSignin = require("./handler-user-signin");
 const handlerUserSignout = require("./handler-user-signout");
 const handlerUserRefreshKey = require("./handler-refresh-key");
+const handlerUserComment = require("./handler-user-comment");
 
 const v1Router = express.Router();
 const jwtSecret = process.env.JWT_SECRET;
@@ -19,7 +20,6 @@ const jwtSecret = process.env.JWT_SECRET;
 v1Router.post("/user/signup", handlerUser.handlerUserCreate);
 v1Router.post("/user/signin", handlerUserSignin);
 v1Router.post("/user/refresh-key", handlerUserRefreshKey);
-
 v1Router.get(
   "/user/auth/info/:username",
   middlewareAuth(db, jwtSecret),
@@ -30,6 +30,7 @@ v1Router.post(
   middlewareAuth(db, jwtSecret),
   handlerUserSignout
 );
+
 v1Router.get(
   "/user/auth/allposts",
   middlewareAuth(db, jwtSecret),
@@ -44,6 +45,17 @@ v1Router.post(
   "/user/auth/posts",
   middlewareAuth(db, jwtSecret),
   handlerPost.handlerPostCreate
+);
+
+v1Router.post(
+  "/user/auth/comments",
+  middlewareAuth(db, jwtSecret),
+  handlerUserComment.handlerCommentCreate
+);
+v1Router.get(
+  "/user/auth/comments",
+  middlewareAuth(db, jwtSecret),
+  handlerUserComment.handlerCommentsGet
 );
 
 v1Router.get("/healthz/readiness", handlerHealthzReadiness);
