@@ -118,6 +118,10 @@ async function handleGetPosts() {
   }
 }
 
+// async function handleCreateComment(params) {
+
+// }
+
 export default {
   handleCreateUserSubmit,
   handleLoginSubmit,

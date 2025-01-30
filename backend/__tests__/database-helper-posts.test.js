@@ -1,59 +1,33 @@
 require("dotenv").config({ path: "./.env.test" });
-const knex = require("knex");
 const dayjs = require("dayjs");
 
+const { setupDb, teardownDb } = require("../dbSetup");
+const queriesUsers = require("../database/helper/users");
 const queriesUsersPost = require("../database/helper/posts");
 
 let db;
-
 beforeAll(async () => {
-  db = knex({
-    client: "pg",
-    connection: {
-      host: process.env.DB_HOST_TEST,
-      port: process.env.DB_PORT_TEST,
-      database: process.env.DB_NAME_TEST,
-      user: process.env.DB_USER_TEST,
-      password: process.env.DB_PASSWORD_TEST,
-    },
-  });
-
-  await db.schema.createTable("users", (table) => {
-    table.text("id").primary();
-    table.text("username").notNullable();
-    table.text("password").notNullable();
-  });
-
-  await db.schema.createTable("posts", (table) => {
-    table.text("id").primary();
-    table.timestamp("created_at").notNullable();
-    table.timestamp("updated_at").notNullable();
-    table.text("post").notNullable();
-    table
-      .text("user_id")
-      .notNullable()
-      .references("id")
-      .inTable("users")
-      .onDelete("CASCADE");
-  });
+  db = await setupDb();
 });
 
 afterEach(async () => {
-  await db("posts").delete();
   await db("users").delete();
 });
 
 afterAll(async () => {
-  await db.schema.dropTableIfExists("posts");
-  await db.schema.dropTableIfExists("users");
-  await db.destroy();
+  await teardownDb();
 });
 
 describe("Users Posts Database Functions", () => {
   const testUser = {
     id: "usertest1",
+    createdAt: dayjs().toDate(),
+    updatedAt: dayjs().toDate(),
     username: "testuser1",
     password: "testpassword1",
+    gender: "male",
+    apiKey: "test_api_key",
+    apiKeyExpiresAt: dayjs().add(30, "day").toDate(),
   };
 
   const testUserPost = {
@@ -65,11 +39,11 @@ describe("Users Posts Database Functions", () => {
   };
 
   beforeEach(async () => {
-    await db("users").insert(testUser);
+    await queriesUsers.createUser(db, testUser);
+    await queriesUsersPost.createPost(db, testUserPost);
   });
 
   it("should create a post", async () => {
-    await queriesUsersPost.createPost(db, testUserPost);
     const post = await db("posts").where({ id: testUserPost.id }).first();
     expect(post).toBeDefined();
     expect(post.post).toBe("testpost1");
@@ -77,14 +51,12 @@ describe("Users Posts Database Functions", () => {
   });
 
   it("should get a post by ID", async () => {
-    await queriesUsersPost.createPost(db, testUserPost);
     const post = await queriesUsersPost.getPostByID(db, testUserPost.id);
     expect(post).toBeDefined();
     expect(post.post).toBe("testpost1");
   });
 
   it("should get posts by user ID", async () => {
-    await queriesUsersPost.createPost(db, testUserPost);
     const posts = await queriesUsersPost.getPostsByUserID(db, "usertest1");
 
     expect(posts).toBeInstanceOf(Array);
@@ -97,15 +69,12 @@ describe("Users Posts Database Functions", () => {
   });
 
   it("should get all posts", async () => {
-    await queriesUsersPost.createPost(db, testUserPost);
     const posts = await queriesUsersPost.getAllPosts(db);
     expect(posts).toHaveLength(1);
     expect(posts[0].post).toBe("testpost1");
   });
 
   it("should update a post", async () => {
-    await queriesUsersPost.createPost(db, testUserPost);
-
     const updatedPost = {
       post: "updatedpost1",
       updatedAt: dayjs().toDate(),
@@ -117,7 +86,6 @@ describe("Users Posts Database Functions", () => {
   });
 
   it("should delete a post", async () => {
-    await queriesUsersPost.createPost(db, testUserPost);
     await queriesUsersPost.deletePost(db, testUserPost.id);
     const post = await db("posts").where({ id: testUserPost.id }).first();
     expect(post).toBeUndefined();

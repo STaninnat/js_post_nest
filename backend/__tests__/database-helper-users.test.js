@@ -1,47 +1,28 @@
 require("dotenv").config({ path: "./.env.test" });
-const knex = require("knex");
 const dayjs = require("dayjs");
 
+const { setupDb, teardownDb } = require("../dbSetup");
 const queriesUsers = require("../database/helper/users");
 
 let db;
-
 beforeAll(async () => {
-  db = knex({
-    client: "pg",
-    connection: {
-      host: process.env.DB_HOST_TEST,
-      port: process.env.DB_PORT_TEST,
-      database: process.env.DB_NAME_TEST,
-      user: process.env.DB_USER_TEST,
-      password: process.env.DB_PASSWORD_TEST,
-    },
-  });
-
-  await db.schema.createTable("users", (table) => {
-    table.text("id").primary();
-    table.timestamp("created_at").notNullable();
-    table.timestamp("updated_at").notNullable();
-    table.text("username").notNullable();
-    table.text("password").notNullable();
-    table.text("gender").nullable();
-    table.text("api_key").unique().notNullable();
-    table.timestamp("api_key_expires_at").notNullable();
-  });
+  db = await setupDb();
 });
 
 afterEach(async () => {
-  await db("users").truncate();
+  await db("comments").delete();
+  await db("posts").delete();
+  await db("users_key").delete();
+  await db("users").delete();
 });
 
 afterAll(async () => {
-  await db.schema.dropTableIfExists("users");
-  await db.destroy();
+  await teardownDb();
 });
 
 describe("User Database Functions", () => {
   const testUser = {
-    id: "1",
+    id: "usertest1",
     createdAt: dayjs().toDate(),
     updatedAt: dayjs().toDate(),
     username: "testuser1",
@@ -69,12 +50,12 @@ describe("User Database Functions", () => {
     await queriesUsers.createUser(db, testUser);
     const user = await queriesUsers.getUserByName(db, "testuser1");
     expect(user).toBeDefined();
-    expect(user.id).toBe("1");
+    expect(user.id).toBe("usertest1");
   });
 
   it("should get a user by ID", async () => {
     await queriesUsers.createUser(db, testUser);
-    const user = await queriesUsers.getUserByID(db, "1");
+    const user = await queriesUsers.getUserByID(db, "usertest1");
     expect(user).toBeDefined();
     expect(user.username).toBe("testuser1");
   });
@@ -82,13 +63,13 @@ describe("User Database Functions", () => {
   it("should update a user", async () => {
     await queriesUsers.createUser(db, testUser);
     const updatedUser = {
-      id: "1",
+      id: "usertest1",
       updatedAt: dayjs().toDate(),
       apiKey: "new_api_key",
       apiKeyExpiresAt: dayjs().add(30, "day").toDate(),
     };
     await queriesUsers.updateUser(db, updatedUser);
-    const user = await db("users").where({ id: "1" }).first();
+    const user = await db("users").where({ id: "usertest1" }).first();
     expect(user.api_key).toBe("new_api_key");
   });
 });
