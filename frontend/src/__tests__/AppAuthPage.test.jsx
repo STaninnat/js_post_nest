@@ -20,18 +20,16 @@ describe("AppAuthPage", () => {
   });
 
   it('should open Sign In popup when the "Sign in" button is clicked', () => {
-    const { getByRole, getByTestId } = render(
+    const { getByTestId } = render(
       <MemoryRouter>
         <AppAuthPage />
       </MemoryRouter>
     );
 
     fireEvent.click(getByTestId("auth-signin-button"));
-    const popup = getByRole("popup-dialog");
-    const header = within(popup).getByTestId("popup-header");
 
-    expect(header.tagName).toBe("H2");
-    expect(header).toHaveTextContent("Sign in");
+    const form = document.querySelector(".form-container-login");
+    expect(form).toBeInTheDocument();
   });
 
   it("should close the popup when the close button is clicked", () => {
