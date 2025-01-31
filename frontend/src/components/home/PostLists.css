@@ -4,6 +4,8 @@
   flex-direction: column;
   margin-top: var(--12px);
   gap: var(--16px);
+  user-select: text;
+  caret-color: transparent;
 }
 
 .home-post-item {
@@ -11,8 +13,8 @@
   flex-direction: column;
   width: 70%;
   height: auto;
-  min-height: var(--100px);
-  max-height: var(--112px);
+  min-height: var(--144px);
+  max-height: var(--224px);
   border: none;
   border-radius: var(--10px);
   padding: var(--12px) var(--24px);
@@ -23,7 +25,8 @@
 .home-post-user,
 .home-post-meta,
 .home-post-content,
-.home-post-username {
+.home-post-username,
+.home-post-comments {
   background-color: transparent;
 }
 .home-post-user {
@@ -38,8 +41,10 @@
 }
 
 .home-post-meta {
+  color: hsl(0, 0%, 40%);
   font-size: var(--8px);
   letter-spacing: 0.3px;
+  margin-top: 2px;
   margin-left: var(--8px);
   opacity: 0.8;
 }
@@ -57,4 +62,21 @@
   font-size: var(--14px);
   margin-top: var(--48px);
   text-align: center;
+}
+
+.home-post-comments {
+  margin-top: auto;
+  margin-left: auto;
+  color: hsl(0, 0%, 40%);
+  opacity: 0.8;
+  text-decoration: none;
+  font-size: var(--10px);
+  cursor: pointer;
+  user-select: none;
+}
+
+.home-post-comments:hover {
+  color: hsla(240, 33%, 3%, 0.8);
+  opacity: 1;
+  text-decoration: underline;
 }

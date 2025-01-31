@@ -1,3 +1,5 @@
+// FOR TEST
+
 require("dotenv").config({ path: "./.env.test" });
 const knex = require("knex");
 

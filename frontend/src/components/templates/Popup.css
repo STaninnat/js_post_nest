@@ -34,15 +34,8 @@
   flex-direction: column;
   color: white;
   z-index: 1000;
-}
-
-.popup-content h2 {
-  margin-top: var(--24px);
-  margin-bottom: var(--32px);
-  text-align: center;
-  font-weight: 600;
-  font-size: var(--32px);
-  letter-spacing: 0.5px;
+  user-select: text;
+  caret-color: transparent;
 }
 
 .close-icon {
@@ -80,6 +73,15 @@
 .form-container form {
   display: flex;
   flex-direction: column;
+}
+
+.form-container h2 {
+  margin-top: var(--24px);
+  margin-bottom: var(--32px);
+  text-align: center;
+  font-weight: 600;
+  font-size: var(--32px);
+  letter-spacing: 0.5px;
 }
 
 .form-container h3 {

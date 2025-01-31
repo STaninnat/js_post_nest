@@ -3,6 +3,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  user-select: text;
+  caret-color: transparent;
 }
 
 .home-post-textarea {
@@ -15,6 +17,7 @@
   border-radius: var(--10px);
   background-color: hsl(208, 80%, 91%);
   resize: none;
+  caret-color: hsl(240, 30%, 3%);
 }
 
 .home-post-textarea:focus {

@@ -71,4 +71,15 @@ describe("Comments Database Functions", () => {
     expect(comments[0].post_id).toBe("userposttest1");
     expect(comments[0].username).toBe("testuser1");
   });
+
+  it("should get comments by postID", async () => {
+    const comments = await queriesUsersComment.getCommentsByPostID(
+      db,
+      testComment.postID
+    );
+    expect(comments).toHaveLength(1);
+    expect(comments[0].comment).toBe("testcomment1");
+    expect(comments[0].post_id).toBe(testComment.postID);
+    expect(comments[0].username).toBe("testuser1");
+  });
 });

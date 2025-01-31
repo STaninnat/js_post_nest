@@ -8,18 +8,17 @@ describe("Popup Component", () => {
     const onClose = vi.fn();
 
     const { getByText } = render(
-      <Popup isVisible={true} onClose={onClose} title="Test Popup">
+      <Popup isVisible={true} onClose={onClose}>
         <div>Content inside popup</div>
       </Popup>
     );
 
-    expect(getByText("Test Popup")).toBeInTheDocument();
     expect(getByText("Content inside popup")).toBeInTheDocument();
   });
 
   it("should not render when not visible", () => {
     const { container } = render(
-      <Popup isVisible={false} onClose={() => {}} title="Test Popup">
+      <Popup isVisible={false} onClose={() => {}}>
         <div>Content inside popup</div>
       </Popup>
     );
@@ -31,7 +30,7 @@ describe("Popup Component", () => {
     const onClose = vi.fn();
 
     const { getByRole } = render(
-      <Popup isVisible={true} onClose={onClose} title="Test Popup">
+      <Popup isVisible={true} onClose={onClose}>
         <div>Content inside popup</div>
       </Popup>
     );
@@ -45,7 +44,7 @@ describe("Popup Component", () => {
     const onClose = vi.fn();
 
     const { container } = render(
-      <Popup isVisible={true} onClose={onClose} title="Test Popup">
+      <Popup isVisible={true} onClose={onClose}>
         <div>Content inside popup</div>
       </Popup>
     );

@@ -1,5 +1,7 @@
 .layout-app-section {
   padding: var(--48px) var(--100px);
+  user-select: text;
+  caret-color: transparent;
 }
 
 .layout-app-container {

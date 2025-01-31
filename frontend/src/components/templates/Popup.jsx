@@ -4,7 +4,7 @@ import "remixicon/fonts/remixicon.css";
 import "./Popup.css";
 
 function Popup(props) {
-  const { isVisible, onClose, title, children } = props;
+  const { isVisible, onClose, children } = props;
   if (!isVisible) return null;
 
   return (
@@ -17,7 +17,6 @@ function Popup(props) {
           role="popup-close-btn"
           aria-label="Close"
         ></i>
-        <h2 data-testid="popup-header">{title}</h2>
         {children}
       </div>
     </div>
