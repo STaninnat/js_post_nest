@@ -45,6 +45,7 @@ async function handlerPostsGet(req, res) {
 
   try {
     const posts = await queriesUsersPost.getAllPosts(db);
+
     return respondWithJSON(res, 200, { posts });
   } catch (error) {
     console.error(
@@ -62,13 +63,11 @@ async function handlerPostsGetForUser(req, res) {
     return respondWithError(res, 401, "user authorization is required");
   }
 
-  const { userID } = req.query;
-
   try {
-    const posts = await queriesUsersPost.getPostsByUserID(db, userID);
-    if (!posts || posts.length === 0) {
-      return respondWithError(res, 400, "no posts found for this user");
-    }
+    const posts = await queriesUsersPost.getPostsByUserID(db, user.id);
+    // if (!posts || posts.length === 0) {
+    //   return respondWithError(res, 400, "no posts found for this user");
+    // }
 
     return respondWithJSON(res, 200, { posts });
   } catch (error) {

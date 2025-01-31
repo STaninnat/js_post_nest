@@ -1,11 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 
+import "./AppHome.css";
+import PostLists from "./PostLists";
+import ApiFunctions from "../ApiFunctions";
 import AppHeader from "../templates/AppHeader";
 import AppLayout from "../templates/AppLayout";
-import ApiFunctions from "../ApiFunctions";
-import PostLists from "./PostLists";
-
-import "./AppHome.css";
 
 function AppHome() {
   const [posts, setPosts] = useState([]);

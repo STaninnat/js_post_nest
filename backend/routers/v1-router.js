@@ -37,7 +37,7 @@ v1Router.get(
   handlerPost.handlerPostsGet
 );
 v1Router.get(
-  "/user/auth/posts",
+  "/user/auth/userposts",
   middlewareAuth(db, jwtSecret),
   handlerPost.handlerPostsGetForUser
 );

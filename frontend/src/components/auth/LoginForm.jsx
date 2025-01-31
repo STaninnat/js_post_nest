@@ -11,11 +11,12 @@ function LoginForm(props) {
     error: externalError,
     setPopupType,
     popupType,
+    rememberMe,
+    setRememberMe,
   } = props;
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -41,7 +42,6 @@ function LoginForm(props) {
     };
 
     onSubmit(formData);
-    setRememberMe(false);
   };
 
   return (
@@ -108,6 +108,8 @@ LoginForm.propTypes = {
   error: PropTypes.string,
   setPopupType: PropTypes.func.isRequired,
   popupType: PropTypes.object.isRequired,
+  rememberMe: PropTypes.bool,
+  setRememberMe: PropTypes.func,
 };
 
 export default LoginForm;
