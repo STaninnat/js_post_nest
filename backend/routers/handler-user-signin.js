@@ -32,10 +32,6 @@ async function handlerUserSignin(req, res) {
       return respondWithError(res, 400, "incorrect password");
     }
 
-    if (dayjs.tz(user.apiKeyExpiresAt).isBefore(dayjs.tz().toDate())) {
-      return respondWithError(res, 401, "api key expired");
-    }
-
     const userID = user.id;
     if (!validate(userID)) {
       return respondWithError(res, 500, "invalid user ID");

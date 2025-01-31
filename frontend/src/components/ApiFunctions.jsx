@@ -118,13 +118,54 @@ async function handleGetPosts() {
   }
 }
 
-// async function handleCreateComment(params) {
+async function handleCreateComments(postID, comment) {
+  try {
+    const url = "/v1/user/auth/comments";
+    const response = await FetchWithAlert(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ postID, comment }),
+    });
 
-// }
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.error || "Unexpected error.");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("error in createComment: ", error);
+    throw error;
+  }
+}
+
+async function handleGetCommentsForPost(postID) {
+  try {
+    const url = `/v1/user/auth/comments?postID=${postID}`;
+    const response = await FetchWithAlert(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.error || "Unexpected error.");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("error in createComment: ", error);
+    throw error;
+  }
+}
 
 export default {
   handleCreateUserSubmit,
   handleLoginSubmit,
   handleCreatePost,
   handleGetPosts,
+  handleCreateComments,
+  handleGetCommentsForPost,
 };

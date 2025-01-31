@@ -117,14 +117,11 @@ async function handlerUserCreate(req, res) {
 }
 
 async function handlerUserGet(req, res) {
-  const userParams = req.user;
-  if (!userParams) {
-    return respondWithError(res, 401, "user authorization is required");
-  }
+  const { userID } = req.query;
 
   try {
-    const user = await queriesUsers.getUserByID(db, userParams.id);
-    if (!user || user.id !== userParams.id) {
+    const user = await queriesUsers.getUserByID(db, userID);
+    if (!user || user.id !== userID) {
       return respondWithError(res, 404, "user not found");
     }
 

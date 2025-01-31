@@ -7,6 +7,8 @@ nav {
   height: var(--40px);
   background-color: hsl(240, 90%, 3%);
   box-shadow: 0 var(--4px) var(--8px) hsl(0, 0%, 60%, 0.2);
+  user-select: text;
+  caret-color: transparent;
 }
 nav i {
   font-size: var(--24px);

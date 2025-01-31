@@ -51,6 +51,7 @@ function LoginForm(props) {
       className={`form-container ${formClass}`}
       autoComplete="off"
     >
+      <h2>Sign in</h2>
       <label>
         <h3>Username:</h3>
         <input

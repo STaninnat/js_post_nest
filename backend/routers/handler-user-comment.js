@@ -10,7 +10,7 @@ const {
 
 async function handlerCommentCreate(req, res) {
   const { postID, comment } = req.body;
-  const { user } = req.user;
+  const user = req.user;
   if (!user) {
     return respondWithError(res, 401, "user authorization is required");
   }
@@ -51,7 +51,7 @@ async function handlerCommentsGet(req, res) {
   }
 
   try {
-    const comments = queriesUsersComment.getComments(db);
+    const comments = await queriesUsersComment.getComments(db);
     return respondWithJSON(res, 200, { comments });
   } catch (error) {
     console.error(
@@ -63,4 +63,33 @@ async function handlerCommentsGet(req, res) {
   }
 }
 
-module.exports = { handlerCommentCreate, handlerCommentsGet };
+async function handlerCommentsGetForPost(req, res) {
+  const user = req.user;
+  if (!user) {
+    return respondWithError(res, 401, "user authorization is required");
+  }
+
+  const { postID } = req.query;
+
+  try {
+    const comments = await queriesUsersComment.getCommentsByPostID(db, postID);
+    if (!comments || comments.length === 0) {
+      return respondWithError(res, 400, "no comments found for this post");
+    }
+
+    return respondWithJSON(res, 200, { comments });
+  } catch (error) {
+    console.error(
+      "error during getting post comments: ",
+      error.message,
+      error.stack
+    );
+    return respondWithError(res, 500, "error - couldn't get comments");
+  }
+}
+
+module.exports = {
+  handlerCommentCreate,
+  handlerCommentsGet,
+  handlerCommentsGetForPost,
+};

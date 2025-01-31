@@ -1,0 +1,122 @@
+.popup-comment {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: auto;
+  caret-color: transparent;
+  user-select: text;
+}
+
+.popup-comment h2 {
+  font-weight: 500;
+  font-size: var(--24px);
+  text-align: center;
+  margin-top: var(--24px);
+  margin-bottom: var(--28px);
+  letter-spacing: 0.3px;
+}
+
+.comment-lists {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: var(--10px);
+}
+
+.comment-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  min-height: var(--56px);
+  max-height: var(--100px);
+  padding: var(--8px);
+  border: none;
+  border-radius: var(--4px);
+  background-color: hsl(208, 80%, 91%);
+  color: hsl(240, 30%, 3%);
+  overflow-y: auto;
+}
+
+.comment-content,
+.comment-header,
+.comment-header p,
+.comment-header span {
+  background-color: transparent;
+}
+
+.comment-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--10px);
+}
+
+.comment-username {
+  font-size: var(--14px);
+  font-weight: bold;
+}
+
+.comment-time {
+  font-size: var(--8px);
+  color: hsl(0, 0%, 30%);
+  letter-spacing: 0.3px;
+  opacity: 0.8;
+}
+
+.comment-content {
+  font-size: var(--12px);
+  margin-left: var(--10px);
+  margin-top: var(--4px);
+}
+
+.no-comments {
+  color: hsl(0, 0%, 80%);
+  font-size: var(--14px);
+  margin-top: var(--32px);
+  text-align: center;
+}
+
+.comment-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  width: 100%;
+}
+
+.comment-textarea {
+  resize: none;
+  color: hsl(240, 30%, 3%);
+  background-color: hsl(208, 80%, 91%);
+  justify-content: flex-start;
+  border: none;
+  border-radius: var(--12px);
+  width: 90%;
+  height: var(--24px);
+  min-height: var(--24px);
+  max-height: var(--56px);
+  font-size: var(--12px);
+  padding: var(--4px) var(--10px);
+  overflow-y: auto;
+  line-height: 1.2;
+  caret-color: hsl(240, 30%, 3%);
+}
+
+.comment-textarea:focus {
+  outline: none;
+}
+
+.send-comment-icon {
+  background-color: transparent;
+  font-size: var(--20px);
+}
+
+.send-comment-icon:hover {
+  filter: brightness(1.2);
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.send-comment-icon[disabled] {
+  opacity: 0.5;
+}

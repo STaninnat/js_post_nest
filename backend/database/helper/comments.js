@@ -41,4 +41,25 @@ async function getComments(db) {
     .orderBy("comments.created_at", "desc");
 }
 
-module.exports = { createComment, getComments };
+/**
+ * Retrieve a list of comments for a specific post
+ * @param {database} db - Database connection instance
+ * @param {string} postID - The ID of the post to fetch comments for
+ * @returns {Promise<Array>} - Resolves with an array of comment objects
+ */
+async function getCommentsByPostID(db, postID) {
+  return await db("comments")
+    .where({ post_id: postID })
+    .join("users", "comments.user_id", "=", "users.id")
+    .select(
+      "comments.id",
+      "comments.created_at",
+      "comments.updated_at",
+      "comments.comment",
+      "comments.post_id",
+      "users.username"
+    )
+    .orderBy("comments.created_at", "desc");
+}
+
+module.exports = { createComment, getComments, getCommentsByPostID };

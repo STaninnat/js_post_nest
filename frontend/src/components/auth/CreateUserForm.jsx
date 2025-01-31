@@ -63,6 +63,7 @@ function CreateUserForm(props) {
       className={`form-container ${formClass}`}
       autoComplete="off"
     >
+      <h2>Create your account</h2>
       <label>
         <h3>Username:</h3>
         <input

@@ -73,13 +73,7 @@ function AppAuthPage() {
         </div>
       </div>
 
-      <Popup
-        isVisible={popupType?.type !== null}
-        onClose={closePopup}
-        title={
-          popupType?.type === "createUser" ? "Create your account" : "Sign in"
-        }
-      >
+      <Popup isVisible={popupType?.type !== null} onClose={closePopup}>
         {popupType?.type === "createUser" ? (
           <CreateUserForm
             onSubmit={handleCreateUserSubmit}
