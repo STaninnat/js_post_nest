@@ -91,6 +91,7 @@ function AppHome() {
       <AppLayout>
         <div className="home-post-container">
           <textarea
+            data-testid="home-post-textarea"
             className="home-post-textarea"
             placeholder="What is happening?..."
             value={postContent}
@@ -122,7 +123,7 @@ function AppHome() {
         </div>
 
         <PostLists
-          posts={posts}
+          posts={posts || []}
           comments={comments || {}}
           refreshComments={getAllComments}
         />
