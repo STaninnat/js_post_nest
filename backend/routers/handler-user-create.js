@@ -117,21 +117,21 @@ async function handlerUserCreate(req, res) {
 }
 
 async function handlerUserGet(req, res) {
-  const { userID } = req.query;
+  const user = req.user;
+  if (!user) {
+    return respondWithError(res, 401, "user authorization is required");
+  }
 
   try {
-    const user = await queriesUsers.getUserByID(db, userID);
-    if (!user || user.id !== userID) {
-      return respondWithError(res, 404, "user not found");
-    }
+    const userParams = await queriesUsers.getUserByID(db, user.id);
 
     const userInfo = {
-      id: user.id,
-      createdAt: user.created_at,
-      updatedAt: user.updated_at,
-      username: user.username,
-      gender: user.gender,
-      apiKeyExpiresAt: user.api_key_expires_at,
+      id: userParams.id,
+      createdAt: userParams.created_at,
+      updatedAt: userParams.updated_at,
+      username: userParams.username,
+      gender: userParams.gender,
+      apiKeyExpiresAt: userParams.api_key_expires_at,
     };
 
     return respondWithJSON(res, 200, { userInfo });

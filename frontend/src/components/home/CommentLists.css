@@ -52,21 +52,21 @@
 }
 
 .comment-username {
-  font-size: var(--14px);
+  font-size: var(--12px);
   font-weight: bold;
 }
 
 .comment-time {
-  font-size: var(--8px);
+  font-size: var(--6px);
   color: hsl(0, 0%, 30%);
   letter-spacing: 0.3px;
   opacity: 0.8;
 }
 
 .comment-content {
-  font-size: var(--12px);
+  font-size: var(--10px);
   margin-left: var(--10px);
-  margin-top: var(--4px);
+  margin-top: var(--6px);
 }
 
 .no-comments {
@@ -92,11 +92,11 @@
   border: none;
   border-radius: var(--12px);
   width: 90%;
-  height: var(--24px);
-  min-height: var(--24px);
-  max-height: var(--56px);
-  font-size: var(--12px);
-  padding: var(--4px) var(--10px);
+  height: var(--28px);
+  min-height: var(--28px);
+  max-height: var(--32px);
+  font-size: var(--10px);
+  padding: var(--6px) var(--10px);
   overflow-y: auto;
   line-height: 1.2;
   caret-color: hsl(240, 30%, 3%);

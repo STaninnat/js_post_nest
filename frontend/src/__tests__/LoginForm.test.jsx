@@ -11,6 +11,7 @@ describe("LoginForm", () => {
     error: "",
     setPopupType: vi.fn(),
     popupType: {},
+    setRememberMe: vi.fn(),
   };
 
   it("should disable the submit button if username or password is not filled", () => {
@@ -45,7 +46,6 @@ describe("LoginForm", () => {
     expect(onSubmitMock).toHaveBeenCalledWith({
       username: "user123",
       password: "password123",
-      rememberMe: false,
     });
   });
 

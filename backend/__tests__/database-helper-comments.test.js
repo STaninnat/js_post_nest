@@ -58,6 +58,7 @@ describe("Comments Database Functions", () => {
 
   it("should create a comment", async () => {
     const comment = await db("comments").where({ id: testComment.id }).first();
+
     expect(comment).toBeDefined();
     expect(comment.comment).toBe("testcomment1");
     expect(comment.post_id).toBe("userposttest1");
@@ -66,6 +67,7 @@ describe("Comments Database Functions", () => {
 
   it("should get all comments", async () => {
     const comments = await queriesUsersComment.getComments(db);
+
     expect(comments).toHaveLength(1);
     expect(comments[0].comment).toBe("testcomment1");
     expect(comments[0].post_id).toBe("userposttest1");
@@ -77,6 +79,7 @@ describe("Comments Database Functions", () => {
       db,
       testComment.postID
     );
+
     expect(comments).toHaveLength(1);
     expect(comments[0].comment).toBe("testcomment1");
     expect(comments[0].post_id).toBe(testComment.postID);

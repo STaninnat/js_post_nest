@@ -2,9 +2,33 @@ import "remixicon/fonts/remixicon.css";
 import { useNavigate } from "react-router-dom";
 
 import "./AppHeader.css";
+import ApiFunctions from "../ApiFunctions";
 
 function AppHeader() {
   const navigate = useNavigate();
+
+  const goToHome = () => {
+    setTimeout(() => {
+      navigate("/home");
+    }, 500);
+  };
+
+  const goToProfile = () => {
+    setTimeout(() => {
+      navigate("/profile");
+    }, 500);
+  };
+
+  const handleSignout = async () => {
+    try {
+      await ApiFunctions.handleSignout();
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
+    } catch (error) {
+      console.error("signout error:", error);
+    }
+  };
 
   return (
     <nav>
@@ -18,7 +42,7 @@ function AppHeader() {
         role="header-home-btn"
         alt="Home"
         title="Go to Homepage"
-        onClick={() => navigate("/home")}
+        onClick={goToHome}
       ></i>
       <div className="proflie-logout-group">
         <i
@@ -26,13 +50,14 @@ function AppHeader() {
           role="header-user-btn"
           alt="User Profile"
           title="View your profile"
+          onClick={goToProfile}
         ></i>
         <i
           className="ri-logout-circle-r-line header-logout-icon"
           role="header-logout-btn"
           alt="Logout"
           title="Logout"
-          onClick={() => navigate("/")}
+          onClick={handleSignout}
         ></i>
       </div>
     </nav>

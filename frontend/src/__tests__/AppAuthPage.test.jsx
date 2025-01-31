@@ -101,6 +101,7 @@ describe("AppAuthPage", () => {
       { username: "user123", password: "password123", rememberMe: false },
       expect.any(Function),
       expect.any(Function),
+      expect.any(Function),
       expect.any(Function)
     );
   });

@@ -47,6 +47,7 @@ describe("Users Key Database Functions", () => {
 
   it("should create a user key", async () => {
     const userKey = await db("users_key").where({ id: testUserKey.id }).first();
+
     expect(userKey).toBeDefined();
     expect(userKey.user_id).toBe("usertest1");
   });
@@ -61,6 +62,7 @@ describe("Users Key Database Functions", () => {
     };
 
     await queriesUsersKey.updateUserRFKey(db, updatedUserKey);
+
     const userKey = await db("users_key")
       .where({ user_id: updatedUserKey.userID })
       .first();
@@ -72,6 +74,7 @@ describe("Users Key Database Functions", () => {
 
   it("should get a user key by user ID", async () => {
     const userKey = await queriesUsersKey.getRFKeyByUserID(db, "usertest1");
+
     expect(userKey).toBeDefined();
     expect(userKey.refresh_token).toBe("test_refresh_token");
   });
@@ -81,6 +84,7 @@ describe("Users Key Database Functions", () => {
       db,
       "test_refresh_token"
     );
+
     expect(userKey).toBeDefined();
     expect(userKey.user_id).toBe("usertest1");
   });

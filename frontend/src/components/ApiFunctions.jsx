@@ -29,9 +29,10 @@ async function handleCreateUserSubmit(
     });
 
     setTimeout(() => {
-      setPopupType({ type: null, error: null });
-      setMessage("");
       navigate("/home");
+
+      setMessage("");
+      setPopupType({ type: null, error: null });
     }, 1500);
   } catch (error) {
     setMessage("");
@@ -42,7 +43,13 @@ async function handleCreateUserSubmit(
   }
 }
 
-async function handleLoginSubmit(userData, setMessage, setPopupType, navigate) {
+async function handleLoginSubmit(
+  userData,
+  setMessage,
+  setPopupType,
+  setRememberMe,
+  navigate
+) {
   try {
     const url = "v1/user/signin";
     const response = await FetchWithAlert(url, {
@@ -66,9 +73,11 @@ async function handleLoginSubmit(userData, setMessage, setPopupType, navigate) {
     });
 
     setTimeout(() => {
-      setPopupType({ type: null, error: null });
-      setMessage("");
       navigate("/home");
+
+      setMessage("");
+      setRememberMe(false);
+      setPopupType({ type: null, error: null });
     }, 1500);
   } catch (error) {
     setMessage("");
@@ -76,6 +85,40 @@ async function handleLoginSubmit(userData, setMessage, setPopupType, navigate) {
       type: "login",
       error: error.message || "Unknown error",
     });
+  }
+}
+
+async function handleGetUser() {
+  try {
+    const url = "/v1/user/auth/info";
+    const response = await FetchWithAlert(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    return response;
+  } catch (error) {
+    console.error("error in get user info:", error);
+    throw error;
+  }
+}
+
+async function handleSignout() {
+  try {
+    const url = "/v1/user/auth/signout";
+    const response = await FetchWithAlert(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("logout failed");
+    }
+  } catch (error) {
+    console.error("error in signout:", error);
+    throw error;
   }
 }
 
@@ -111,6 +154,23 @@ async function handleGetPosts() {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
+
+    return response;
+  } catch (error) {
+    console.error("error in getPost: ", error);
+    throw error;
+  }
+}
+
+async function handleGetPostsForUser() {
+  try {
+    const url = "/v1/user/auth/userposts";
+    const response = await FetchWithAlert(url, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
     return response;
   } catch (error) {
     console.error("error in getPost: ", error);
@@ -164,8 +224,11 @@ async function handleGetCommentsForPost(postID) {
 export default {
   handleCreateUserSubmit,
   handleLoginSubmit,
+  handleGetUser,
+  handleSignout,
   handleCreatePost,
   handleGetPosts,
+  handleGetPostsForUser,
   handleCreateComments,
   handleGetCommentsForPost,
 };

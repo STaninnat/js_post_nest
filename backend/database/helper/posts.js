@@ -39,7 +39,15 @@ async function getPostByID(db, id) {
 async function getPostsByUserID(db, userID) {
   return await db("posts")
     .where({ user_id: userID })
-    .orderBy("created_at", "desc");
+    .join("users", "posts.user_id", "=", "users.id")
+    .select(
+      "posts.id",
+      "posts.created_at",
+      "posts.updated_at",
+      "posts.post",
+      "users.username"
+    )
+    .orderBy("posts.created_at", "desc");
 }
 
 /**

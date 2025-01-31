@@ -45,6 +45,7 @@ describe("Users Posts Database Functions", () => {
 
   it("should create a post", async () => {
     const post = await db("posts").where({ id: testUserPost.id }).first();
+
     expect(post).toBeDefined();
     expect(post.post).toBe("testpost1");
     expect(post.user_id).toBe("usertest1");
@@ -52,6 +53,7 @@ describe("Users Posts Database Functions", () => {
 
   it("should get a post by ID", async () => {
     const post = await queriesUsersPost.getPostByID(db, testUserPost.id);
+
     expect(post).toBeDefined();
     expect(post.post).toBe("testpost1");
   });
@@ -65,11 +67,12 @@ describe("Users Posts Database Functions", () => {
     const post = posts[0];
     expect(post).toBeDefined();
     expect(post.post).toBe("testpost1");
-    expect(post.user_id).toBe("usertest1");
+    expect(post.username).toBe("testuser1");
   });
 
   it("should get all posts", async () => {
     const posts = await queriesUsersPost.getAllPosts(db);
+
     expect(posts).toHaveLength(1);
     expect(posts[0].post).toBe("testpost1");
   });
@@ -81,12 +84,14 @@ describe("Users Posts Database Functions", () => {
     };
 
     await queriesUsersPost.updatePost(db, testUserPost.id, updatedPost);
+
     const post = await db("posts").where({ id: testUserPost.id }).first();
     expect(post.post).toBe("updatedpost1");
   });
 
   it("should delete a post", async () => {
     await queriesUsersPost.deletePost(db, testUserPost.id);
+
     const post = await db("posts").where({ id: testUserPost.id }).first();
     expect(post).toBeUndefined();
   });

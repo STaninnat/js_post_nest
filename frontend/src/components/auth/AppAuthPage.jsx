@@ -10,6 +10,7 @@ import CreateUserForm from "./CreateUserForm";
 function AppAuthPage() {
   const navigate = useNavigate();
 
+  const [rememberMe, setRememberMe] = useState(false);
   const [popupType, setPopupType] = useState({ type: null, error: null });
   const [message, setMessage] = useState("");
 
@@ -32,6 +33,7 @@ function AppAuthPage() {
       userData,
       setMessage,
       setPopupType,
+      setRememberMe,
       navigate
     );
   };
@@ -91,6 +93,8 @@ function AppAuthPage() {
             error={popupType?.error}
             setPopupType={setPopupType}
             popupType={popupType}
+            rememberMe={rememberMe}
+            setRememberMe={setRememberMe}
           />
         ) : null}
       </Popup>

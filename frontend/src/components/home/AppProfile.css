@@ -1,0 +1,28 @@
+.profile-top {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: hsl(208, 80%, 91%);
+  height: var(--208px);
+}
+
+.profile-pic {
+  width: var(--112px);
+  height: var(--112px);
+  background-color: hsl(230, 100%, 20%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: hsl(208, 80%, 91%);
+  font-weight: bold;
+}
+
+.profile-name {
+  background-color: transparent;
+  margin-top: var(--14px);
+  font-size: var(--24px);
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 0.4px;
+}

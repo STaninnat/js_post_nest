@@ -1,5 +1,4 @@
 const dayjs = require("dayjs");
-const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 
 const db = require("../database/knex-instance");
@@ -9,8 +8,6 @@ const {
   respondWithJSON,
   respondWithError,
 } = require("../middleware/respond-json");
-
-const router = express.Router();
 
 async function handlerLogout(req, res) {
   const user = req.user;
@@ -62,6 +59,4 @@ async function handlerLogout(req, res) {
   }
 }
 
-router.post("/signout", handlerLogout);
-
-module.exports = router;
+module.exports = handlerLogout;

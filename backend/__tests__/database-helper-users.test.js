@@ -34,6 +34,7 @@ describe("User Database Functions", () => {
 
   it("should create a user", async () => {
     await queriesUsers.createUser(db, testUser);
+
     const user = await db("users").where({ id: testUser.id }).first();
     expect(user).toBeDefined();
     expect(user.username).toBe("testuser1");
@@ -41,6 +42,7 @@ describe("User Database Functions", () => {
 
   it("should get a user by API key", async () => {
     await queriesUsers.createUser(db, testUser);
+
     const user = await queriesUsers.getUserByApiKey(db, "test_api_key");
     expect(user).toBeDefined();
     expect(user.username).toBe("testuser1");
@@ -48,6 +50,7 @@ describe("User Database Functions", () => {
 
   it("should get a user by username", async () => {
     await queriesUsers.createUser(db, testUser);
+
     const user = await queriesUsers.getUserByName(db, "testuser1");
     expect(user).toBeDefined();
     expect(user.id).toBe("usertest1");
@@ -55,6 +58,7 @@ describe("User Database Functions", () => {
 
   it("should get a user by ID", async () => {
     await queriesUsers.createUser(db, testUser);
+
     const user = await queriesUsers.getUserByID(db, "usertest1");
     expect(user).toBeDefined();
     expect(user.username).toBe("testuser1");
@@ -62,13 +66,16 @@ describe("User Database Functions", () => {
 
   it("should update a user", async () => {
     await queriesUsers.createUser(db, testUser);
+
     const updatedUser = {
       id: "usertest1",
       updatedAt: dayjs().toDate(),
       apiKey: "new_api_key",
       apiKeyExpiresAt: dayjs().add(30, "day").toDate(),
     };
+
     await queriesUsers.updateUser(db, updatedUser);
+
     const user = await db("users").where({ id: "usertest1" }).first();
     expect(user.api_key).toBe("new_api_key");
   });
