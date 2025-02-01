@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 
 import "./AppHome.css";
@@ -7,19 +8,48 @@ import AppHeader from "../templates/AppHeader";
 import AppLayout from "../templates/AppLayout";
 
 function AppHome() {
+  const navigate = useNavigate();
+
   const [posts, setPosts] = useState([]);
   const [message, setMessage] = useState("");
   const [comments, setComments] = useState({});
   const [postContent, setPostContent] = useState("");
   const [messageType, setMessageType] = useState("");
 
+  const getAllComments = useCallback(
+    async (posts) => {
+      try {
+        const allComments = {};
+        for (const post of posts) {
+          const response = await ApiFunctions.handleGetCommentsForPost(
+            post.id,
+            navigate
+          );
+          if (response.ok) {
+            const data = await response.json();
+            allComments[post.id] = data.comments.sort(
+              (a, b) => new Date(a.created_at) - new Date(b.created_at)
+            );
+          }
+        }
+
+        setComments(allComments);
+      } catch (error) {
+        console.error("error fetching comments:", error);
+      }
+    },
+    [navigate]
+  );
+
   const getPosts = useCallback(async () => {
     try {
-      const response = await ApiFunctions.handleGetPosts();
+      const response = await ApiFunctions.handleGetPosts(navigate);
       if (response.ok) {
         const data = await response.json();
-        setPosts(data.posts);
-        getAllComments(data.posts);
+        const postsData = data.posts || [];
+
+        setPosts(postsData);
+        getAllComments(postsData);
       } else {
         setMessage("failed to get post");
       }
@@ -27,25 +57,7 @@ function AppHome() {
       console.error("error fetching posts: ", error);
       setMessage("an error occurred while loading posts");
     }
-  }, []);
-
-  const getAllComments = async (posts) => {
-    try {
-      const allComments = {};
-      for (const post of posts) {
-        const response = await ApiFunctions.handleGetCommentsForPost(post.id);
-        if (response.ok) {
-          const data = await response.json();
-          allComments[post.id] = data.comments.sort(
-            (a, b) => new Date(a.created_at) - new Date(b.created_at)
-          );
-        }
-      }
-      setComments(allComments);
-    } catch (error) {
-      console.error("error fetching comments:", error);
-    }
-  };
+  }, [getAllComments, navigate]);
 
   useEffect(() => {
     getPosts();
@@ -58,7 +70,10 @@ function AppHome() {
     }
 
     try {
-      const response = await ApiFunctions.handleCreatePost(postContent);
+      const response = await ApiFunctions.handleCreatePost(
+        postContent,
+        navigate
+      );
       if (response.ok) {
         setMessage("Post created successfully");
         setMessageType("success");
@@ -125,6 +140,7 @@ function AppHome() {
           posts={posts || []}
           comments={comments || {}}
           refreshComments={getAllComments}
+          refreshPosts={getPosts}
         />
       </AppLayout>
     </div>

@@ -11,9 +11,6 @@ const {
 
 async function handlerLogout(req, res) {
   const user = req.user;
-  if (!user) {
-    return respondWithError(res, 401, "user authorization is required");
-  }
 
   try {
     const newKeyExpiredAt = dayjs.tz().subtract(1, "year").toDate();

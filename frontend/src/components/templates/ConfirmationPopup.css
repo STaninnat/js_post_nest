@@ -1,0 +1,82 @@
+.confirmation-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.popup-bg {
+  background-color: rgba(25, 25, 25, 0.5);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.confirmation-popup p,
+.confirmation-buttons {
+  background-color: transparent;
+}
+
+.confirmation-popup {
+  position: relative;
+  user-select: text;
+  caret-color: transparent;
+  background-color: hsl(240, 30%, 3%);
+  padding: var(--10px);
+  border-radius: 8px;
+  text-align: center;
+  width: var(--300px);
+  height: var(--72px);
+}
+
+.confirmation-popup p {
+  color: white;
+  font-size: var(--14px);
+}
+
+.confirmation-buttons {
+  margin-top: var(--8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--8px);
+}
+
+.delete-confirm,
+.delete-cancel {
+  color: white;
+  font-size: var(--12px);
+  padding: var(--4px);
+  width: var(--64px);
+  border: none;
+  border-radius: var(--8px);
+}
+
+.delete-confirm {
+  background-color: hsla(0, 0%, 30%);
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.delete-cancel {
+  background-color: hsl(224, 88%, 9%);
+  cursor: pointer;
+}
+
+.delete-confirm:hover {
+  background-color: hsl(225, 89%, 7%);
+  opacity: 1;
+}
+
+.delete-cancel:hover {
+  background-color: hsl(225, 89%, 7%);
+  cursor: pointer;
+}

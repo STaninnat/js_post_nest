@@ -2,12 +2,15 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import "remixicon/fonts/remixicon.css";
+import { useNavigate } from "react-router-dom";
 
 import "./CommentLists.css";
 import ApiFunctions from "../ApiFunctions";
 
 function CommentLists(props) {
   const { postID, comments, refreshComments } = props;
+
+  const navigate = useNavigate();
 
   const [newComment, setNewComment] = useState("");
 
@@ -17,14 +20,15 @@ function CommentLists(props) {
     try {
       const response = await ApiFunctions.handleCreateComments(
         postID,
-        newComment
+        newComment,
+        navigate
       );
       if (response.ok) {
         setNewComment("");
         refreshComments([{ id: postID }]);
       }
     } catch (error) {
-      console.error("Error adding comment:", error);
+      console.error("error adding comment:", error);
     }
   };
 

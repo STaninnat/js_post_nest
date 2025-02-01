@@ -73,9 +73,6 @@ async function handlerCommentsGetForPost(req, res) {
 
   try {
     const comments = await queriesUsersComment.getCommentsByPostID(db, postID);
-    if (!comments || comments.length === 0) {
-      return respondWithError(res, 400, "no comments found for this post");
-    }
 
     return respondWithJSON(res, 200, { comments });
   } catch (error) {

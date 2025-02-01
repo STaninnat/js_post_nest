@@ -50,4 +50,6 @@
   font-family: "Inter", sans-serif;
   font-weight: 400;
   background-color: hsl(240, 30%, 3%);
+  user-select: text;
+  caret-color: transparent;
 }

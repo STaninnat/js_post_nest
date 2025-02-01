@@ -18,6 +18,7 @@ describe("AppHome Component", () => {
       json: () => ({ comments: [] }),
     });
     ApiFunctions.handleCreatePost.mockResolvedValue({ ok: true });
+    vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
   it("should fetch and display posts", async () => {

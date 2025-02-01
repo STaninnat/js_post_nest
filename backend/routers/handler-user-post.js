@@ -81,11 +81,13 @@ async function handlerPostsGetForUser(req, res) {
 }
 
 async function handlerPostsEdit(req, res) {
-  const { post, postID } = req.body;
+  const { post } = req.body;
   const user = req.user;
   if (!user) {
     return respondWithError(res, 401, "user authorization is required");
   }
+
+  const { postID } = req.query;
   if (!postID) {
     return respondWithError(res, 400, "postID is required");
   }
@@ -112,7 +114,7 @@ async function handlerPostsEdit(req, res) {
 }
 
 async function handlerPostsDelete(req, res) {
-  const { postID } = req.body;
+  const { postID } = req.query;
   const user = req.user;
   if (!user) {
     return respondWithError(res, 401, "user authorization is required");

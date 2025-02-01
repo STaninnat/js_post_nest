@@ -1,9 +1,8 @@
+import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi } from "vitest";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 
 import PostLists from "../components/home/PostLists";
-// import Popup from "../templates/Popup";
-// import CommentLists from "../components/home/CommentLists";
 
 vi.mock("../templates/Popup", () => ({
   __esModule: true,
@@ -11,7 +10,9 @@ vi.mock("../templates/Popup", () => ({
     isVisible ? (
       <div>
         {children}
-        <button onClick={onClose}>Close</button>
+        <button onClick={onClose} role="popup-close-btn">
+          Close
+        </button>
       </div>
     ) : null,
 }));
@@ -29,6 +30,7 @@ vi.mock("../components/home/CommentLists", () => ({
 
 describe("PostLists Component", () => {
   const mockRefreshComments = vi.fn();
+  const mockRefreshPosts = vi.fn();
 
   const posts = [
     {
@@ -48,11 +50,14 @@ describe("PostLists Component", () => {
 
   it("should display posts and comments count", async () => {
     render(
-      <PostLists
-        posts={posts}
-        comments={comments}
-        refreshComments={mockRefreshComments}
-      />
+      <MemoryRouter>
+        <PostLists
+          posts={posts}
+          comments={comments}
+          refreshComments={mockRefreshComments}
+          refreshPosts={mockRefreshPosts}
+        />
+      </MemoryRouter>
     );
 
     expect(screen.getByText("Test Post 1")).toBeInTheDocument();
@@ -61,11 +66,14 @@ describe("PostLists Component", () => {
 
   it("should open and close the popup when clicking on comments", async () => {
     render(
-      <PostLists
-        posts={posts}
-        comments={comments}
-        refreshComments={mockRefreshComments}
-      />
+      <MemoryRouter>
+        <PostLists
+          posts={posts}
+          comments={comments}
+          refreshComments={mockRefreshComments}
+          refreshPosts={mockRefreshPosts}
+        />
+      </MemoryRouter>
     );
 
     const commentsLink = screen.getByText("2 comments");
@@ -85,11 +93,14 @@ describe("PostLists Component", () => {
 
   it("should display a message when no posts are available", async () => {
     render(
-      <PostLists
-        posts={[]}
-        comments={{}}
-        refreshComments={mockRefreshComments}
-      />
+      <MemoryRouter>
+        <PostLists
+          posts={[]}
+          comments={{}}
+          refreshComments={mockRefreshComments}
+          refreshPosts={mockRefreshPosts}
+        />
+      </MemoryRouter>
     );
 
     expect(screen.getByText("No posts available")).toBeInTheDocument();
