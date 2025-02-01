@@ -1,3 +1,4 @@
+import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect, vi } from "vitest";
 import { render, fireEvent, waitFor, screen } from "@testing-library/react";
 
@@ -7,11 +8,14 @@ import CommentLists from "../components/home/CommentLists";
 vi.mock("../components/ApiFunctions");
 
 describe("CommentLists Component", () => {
+  // let navigate;
   const mockRefreshComments = vi.fn();
   const postID = "post1";
 
   beforeEach(() => {
     ApiFunctions.handleCreateComments.mockResolvedValue({ ok: true });
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    // navigate = vi.fn();
   });
 
   it("should display comments when available", () => {
@@ -31,11 +35,13 @@ describe("CommentLists Component", () => {
     ];
 
     render(
-      <CommentLists
-        postID={postID}
-        comments={comments}
-        refreshComments={mockRefreshComments}
-      />
+      <MemoryRouter>
+        <CommentLists
+          postID={postID}
+          comments={comments}
+          refreshComments={mockRefreshComments}
+        />
+      </MemoryRouter>
     );
 
     expect(screen.getByText("Test Comment 1")).toBeInTheDocument();
@@ -44,11 +50,13 @@ describe("CommentLists Component", () => {
 
   it("should display 'No comments yet' if there are no comments", () => {
     render(
-      <CommentLists
-        postID={postID}
-        comments={[]}
-        refreshComments={mockRefreshComments}
-      />
+      <MemoryRouter>
+        <CommentLists
+          postID={postID}
+          comments={[]}
+          refreshComments={mockRefreshComments}
+        />
+      </MemoryRouter>
     );
 
     expect(screen.getByText("No comments yet.")).toBeInTheDocument();
@@ -58,11 +66,13 @@ describe("CommentLists Component", () => {
     const comments = [];
 
     render(
-      <CommentLists
-        postID={postID}
-        comments={comments}
-        refreshComments={mockRefreshComments}
-      />
+      <MemoryRouter>
+        <CommentLists
+          postID={postID}
+          comments={comments}
+          refreshComments={mockRefreshComments}
+        />
+      </MemoryRouter>
     );
 
     const commentInput = screen.getByPlaceholderText("Write a comment...");
@@ -74,7 +84,8 @@ describe("CommentLists Component", () => {
     await waitFor(() => {
       expect(ApiFunctions.handleCreateComments).toHaveBeenCalledWith(
         postID,
-        "New Comment"
+        "New Comment",
+        expect.any(Function)
       );
       expect(mockRefreshComments).toHaveBeenCalled();
     });

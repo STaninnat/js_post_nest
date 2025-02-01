@@ -88,14 +88,23 @@ async function handleLoginSubmit(
   }
 }
 
-async function handleGetUser() {
+async function handleGetUser(navigate) {
   try {
     const url = "/v1/user/auth/info";
-    const response = await FetchWithAlert(url, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+    const response = await FetchWithAlert(
+      url,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      },
+      navigate
+    );
+
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.error || "failed to get user info");
+    }
 
     return response;
   } catch (error) {
@@ -104,14 +113,18 @@ async function handleGetUser() {
   }
 }
 
-async function handleSignout() {
+async function handleSignout(navigate) {
   try {
     const url = "/v1/user/auth/signout";
-    const response = await FetchWithAlert(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+    const response = await FetchWithAlert(
+      url,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      },
+      navigate
+    );
 
     if (!response.ok) {
       throw new Error("logout failed");
@@ -122,17 +135,21 @@ async function handleSignout() {
   }
 }
 
-async function handleCreatePost(postContent) {
+async function handleCreatePost(postContent, navigate) {
   try {
     const url = "/v1/user/auth/posts";
-    const response = await FetchWithAlert(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await FetchWithAlert(
+      url,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({ post: postContent }),
       },
-      credentials: "include",
-      body: JSON.stringify({ post: postContent }),
-    });
+      navigate
+    );
 
     if (!response.ok) {
       const result = await response.json();
@@ -146,14 +163,23 @@ async function handleCreatePost(postContent) {
   }
 }
 
-async function handleGetPosts() {
+async function handleGetPosts(navigate) {
   try {
     const url = "/v1/user/auth/allposts";
-    const response = await FetchWithAlert(url, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+    const response = await FetchWithAlert(
+      url,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      },
+      navigate
+    );
+
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.error || "failed to get posts");
+    }
 
     return response;
   } catch (error) {
@@ -162,14 +188,23 @@ async function handleGetPosts() {
   }
 }
 
-async function handleGetPostsForUser() {
+async function handleGetPostsForUser(navigate) {
   try {
     const url = "/v1/user/auth/userposts";
-    const response = await FetchWithAlert(url, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+    const response = await FetchWithAlert(
+      url,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      },
+      navigate
+    );
+
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.error || "failed to get posts for user");
+    }
 
     return response;
   } catch (error) {
@@ -178,15 +213,70 @@ async function handleGetPostsForUser() {
   }
 }
 
-async function handleCreateComments(postID, comment) {
+async function handleEditPost(postID, newPostContent, navigate) {
+  try {
+    const url = `/v1/user/auth/editposts?postID=${postID}`;
+    const response = await FetchWithAlert(
+      url,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(newPostContent),
+      },
+      navigate
+    );
+
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.error || "failed to edit post");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("error in editPost: ", error);
+    throw error;
+  }
+}
+
+async function handleDeletePost(postID, navigate) {
+  try {
+    const url = `/v1/user/auth/deleteposts?postID=${postID}`;
+    const response = await FetchWithAlert(
+      url,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      },
+      navigate
+    );
+
+    if (!response.ok) {
+      const result = await response.json();
+      throw new Error(result.error || "failed to delete post");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("error in editPost: ", error);
+    throw error;
+  }
+}
+
+async function handleCreateComments(postID, comment, navigate) {
   try {
     const url = "/v1/user/auth/comments";
-    const response = await FetchWithAlert(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ postID, comment }),
-    });
+    const response = await FetchWithAlert(
+      url,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ postID, comment }),
+      },
+      navigate
+    );
 
     if (!response.ok) {
       const result = await response.json();
@@ -200,23 +290,27 @@ async function handleCreateComments(postID, comment) {
   }
 }
 
-async function handleGetCommentsForPost(postID) {
+async function handleGetCommentsForPost(postID, navigate) {
   try {
     const url = `/v1/user/auth/comments?postID=${postID}`;
-    const response = await FetchWithAlert(url, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
+    const response = await FetchWithAlert(
+      url,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      },
+      navigate
+    );
 
     if (!response.ok) {
       const result = await response.json();
-      throw new Error(result.error || "Unexpected error.");
+      throw new Error(result.error || "unexpected error.");
     }
 
     return response;
   } catch (error) {
-    console.error("error in createComment: ", error);
+    console.error("error in getComment: ", error);
     throw error;
   }
 }
@@ -229,6 +323,8 @@ export default {
   handleCreatePost,
   handleGetPosts,
   handleGetPostsForUser,
+  handleEditPost,
+  handleDeletePost,
   handleCreateComments,
   handleGetCommentsForPost,
 };

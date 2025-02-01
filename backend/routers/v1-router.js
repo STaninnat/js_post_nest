@@ -46,6 +46,16 @@ v1Router.post(
   middlewareAuth(db, jwtSecret),
   handlerPost.handlerPostCreate
 );
+v1Router.post(
+  "/user/auth/editposts",
+  middlewareAuth(db, jwtSecret),
+  handlerPost.handlerPostsEdit
+);
+v1Router.delete(
+  "/user/auth/deleteposts",
+  middlewareAuth(db, jwtSecret),
+  handlerPost.handlerPostsDelete
+);
 
 v1Router.post(
   "/user/auth/comments",

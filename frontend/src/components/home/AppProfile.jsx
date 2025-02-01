@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 
 import "./AppProfile.css";
@@ -7,13 +8,15 @@ import AppHeader from "../templates/AppHeader";
 import AppLayout from "../templates/AppLayout";
 
 function AppProfile() {
+  const navigate = useNavigate();
+
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState({});
   const [username, setUsername] = useState("loading...");
 
-  const handleuserInfo = async () => {
+  const handleuserInfo = useCallback(async () => {
     try {
-      const response = await ApiFunctions.handleGetUser();
+      const response = await ApiFunctions.handleGetUser(navigate);
       if (response.ok) {
         const data = await response.json();
         setUsername(data.userInfo.username);
@@ -22,11 +25,36 @@ function AppProfile() {
       console.error("error fetching user info: ", error);
       setUsername("can not loading user info");
     }
-  };
+  }, [navigate]);
+
+  const getAllComments = useCallback(
+    async (posts) => {
+      try {
+        const allComments = {};
+        for (const post of posts) {
+          const response = await ApiFunctions.handleGetCommentsForPost(
+            post.id,
+            navigate
+          );
+          if (response.ok) {
+            const data = await response.json();
+            allComments[post.id] = data.comments.sort(
+              (a, b) => new Date(a.created_at) - new Date(b.created_at)
+            );
+          }
+        }
+
+        setComments(allComments);
+      } catch (error) {
+        console.error("error fetching comments:", error);
+      }
+    },
+    [navigate]
+  );
 
   const getUserPosts = useCallback(async () => {
     try {
-      const response = await ApiFunctions.handleGetPostsForUser();
+      const response = await ApiFunctions.handleGetPostsForUser(navigate);
       if (response.ok) {
         const data = await response.json();
         setPosts(data.posts);
@@ -35,31 +63,12 @@ function AppProfile() {
     } catch (error) {
       console.error("error fetching user posts:", error);
     }
-  }, []);
-
-  const getAllComments = async (posts) => {
-    try {
-      const allComments = {};
-      for (const post of posts) {
-        const response = await ApiFunctions.handleGetCommentsForPost(post.id);
-        if (response.ok) {
-          const data = await response.json();
-          allComments[post.id] = data.comments.sort(
-            (a, b) => new Date(a.created_at) - new Date(b.created_at)
-          );
-        }
-      }
-
-      setComments(allComments);
-    } catch (error) {
-      console.error("error fetching comments:", error);
-    }
-  };
+  }, [getAllComments, navigate]);
 
   useEffect(() => {
     handleuserInfo();
     getUserPosts();
-  }, [getUserPosts]);
+  }, [handleuserInfo, getUserPosts]);
 
   return (
     <div className="app-profile">
@@ -70,13 +79,11 @@ function AppProfile() {
           <h2 className="profile-name">{username}</h2>
         </div>
 
-        <div className="profile-posts">
-          <PostLists
-            posts={posts || []}
-            comments={comments || {}}
-            refreshComments={getAllComments}
-          />
-        </div>
+        <PostLists
+          posts={posts || []}
+          comments={comments || {}}
+          refreshComments={getAllComments}
+        />
       </AppLayout>
     </div>
   );

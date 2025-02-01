@@ -21,7 +21,7 @@ function AppHeader() {
 
   const handleSignout = async () => {
     try {
-      await ApiFunctions.handleSignout();
+      await ApiFunctions.handleSignout(navigate);
       setTimeout(() => {
         navigate("/");
       }, 500);
