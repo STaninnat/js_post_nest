@@ -2,6 +2,8 @@
 
 ![code coverage badge](https://github.com/STaninnat/js_post_nest/actions/workflows/ci.yml/badge.svg)
 
+This project uses Node.js with Express for the backend and Vite React for the frontend, handling user authentication, posts, and comments.
+
 ## Features
 
 - **User Authentication**
