@@ -1,12 +1,13 @@
 import js from "@eslint/js";
 import globals from "globals";
+import node from "eslint-plugin-node";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 
 /** @type {import('eslint').Linter.Config} */
 export default [
-  // Node.js และ Backend
+  // Node.js & Backend
   {
     files: ["backend/**/*.{js,mjs,cjs}"],
     languageOptions: {
@@ -57,6 +58,26 @@ export default [
         "warn",
         { allowConstantExport: true },
       ],
+    },
+  },
+
+  // Vite config
+  {
+    files: ["frontend/vite.config.{js,mjs,cjs,ts}"],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        process: "readonly",
+      },
+      sourceType: "module",
+    },
+    plugins: {
+      node,
+    },
+    extends: ["plugin:node/recommended"],
+    rules: {
+      ...js.configs.recommended.rules,
+      "node/no-process-env": "off",
     },
   },
 ];

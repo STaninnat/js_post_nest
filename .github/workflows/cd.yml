@@ -1,0 +1,66 @@
+# Example:
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    # -----env mockup-----
+    # env:
+    #  PROJECT_ID: ${{ secrets.DATABASE_URL }}
+    # --------------------
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # - id: auth
+      #   name: Authenticate with Google Cloud
+      #   uses: google-github-actions/auth@v2
+      #   # -----credentials mockup-----
+      #   # with:
+      #   #   credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+      #   # ----------------------------
+
+      # - name: Set up Cloud SDK
+      #   uses: google-github-actions/setup-gcloud@v2
+
+      # - name: Enable Artifact Registry
+      #   run: gcloud services enable artifactregistry.googleapis.com
+
+      # - name: Configure Docker to use Artifact Registry
+      #   run: gcloud auth configure-docker artifactregistry.io
+
+      # #  Build & Push Backend
+      # - name: Build and Push Backend Image
+      #   run: gcloud builds submit --tag <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>/<TAG> ./backend
+
+      # #  Build & Push Frontend
+      # - name: Build and Push Frontend Image
+      #   run: gcloud builds submit --tag <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>/<TAG> ./frontend
+
+      # # Deploy Backend
+      # - name: Deploy Backend to Cloud Run
+      #   run: |
+      #     gcloud run deploy backend-service \
+      #       --image <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>/<TAG> \
+      #       --region <REGION> \
+      #       --platform=managed \
+      #       --allow-unauthenticated \
+      #       --max-instances=<MAX_INSTANCES> \
+      #       --add-cloudsql-instances=$INSTANCE_CONNECTION_NAME \
+      #       --set-secrets="DB_USER=DB_USER:latest,DB_PASSWORD=DB_PASSWORD:latest,DB_NAME=DB_NAME:latest"
+
+      # # Deploy Frontend
+      # - name: Deploy Frontend to Cloud Run
+      #   run: |
+      #     gcloud run deploy frontend-service \
+      #       --image <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>/<TAG> \
+      #       --region <REGION> \
+      #       --platform=managed \
+      #       --allow-unauthenticated

@@ -1,5 +1,6 @@
 # Backend
 backend/node_modules/
+.env.production
 backend/.env.test
 backend/.env
 
@@ -12,13 +13,13 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-frontend/README.md
 frontend/node_modules/
 frontend/dist
 dist
 frontend/dist-ssr
 dist-ssr
 *.local
+frontend/.env*
 
 # Editor directories and files
 node_modules/
@@ -31,3 +32,4 @@ node_modules/
 *.njsproj
 *.sln
 *.sw?
+.env

@@ -35,7 +35,7 @@
   box-shadow: var(--4px) var(--4px) var(--16px) hsl(0, 0%, 0%);
   width: 100%;
   height: auto;
-  max-width: 75%;
+  max-width: var(--448px);
   max-height: 60vh;
   min-width: var(--400px);
   min-height: var(--336px);

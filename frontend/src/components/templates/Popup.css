@@ -89,6 +89,11 @@
   font-size: var(--12px);
 }
 
+/* .form-container input[type="text"],
+.form-container input[type="password"] {
+  caret-color: white;
+} */
+
 .form-container input[type="text"],
 .form-container input[type="password"],
 .form-container select {
@@ -99,6 +104,10 @@
   border-radius: var(--8px);
   width: 100%;
   transition: border-color 0.3s ease;
+}
+
+.form-container input:focus {
+  caret-color: white;
 }
 
 .form-container input:focus,

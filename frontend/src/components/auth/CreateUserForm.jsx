@@ -95,6 +95,8 @@ function CreateUserForm(props) {
           value={gender}
           onChange={handleGenderChange}
           onBlur={handleGenderBlur}
+          onFocus={(e) => e.target.setCustomValidity("")}
+          onMouseDown={() => document.activeElement.blur()}
         >
           <option value="default" disabled>
             Select Gender
