@@ -44,6 +44,9 @@ jobs:
       # - name: Build and Push Frontend Image
       #   run: gcloud builds submit --tag <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>/<TAG> ./frontend
 
+      # - name: Run Migrations
+      #   run: npx knex migrate:latest --env=production
+
       # # Deploy Backend
       # - name: Deploy Backend to Cloud Run
       #   run: |
