@@ -1,8 +1,7 @@
-# PostNest
+# PostNest - Frontend and Backend on Cloud Run
 
-![code coverage badge](https://github.com/STaninnat/js_post_nest/actions/workflows/ci.yml/badge.svg)
-
-This project uses Node.js with Express for the backend and Vite React for the frontend, handling user authentication, posts, and comments.
+This branch demonstrates an architecture where both the frontend and backend are hosted on Google Cloud Run. The frontend (Vite React) and backend (Node.js & Express) are both deployed as services in Cloud Run.
+Features
 
 ## Features
 
@@ -25,77 +24,42 @@ This project uses Node.js with Express for the backend and Vite React for the fr
   - Home page for creating posts and comments.
   - Profile page to display user details and their posts.
 
-## Installation and Tools Used
+## Architecture
 
-- **Backend**
-  - Node.js & Express: The core framework for handling API requests.
-  - JWT: Used for authentication and token management.
-  - Middleware for Authentication: Ensures secure access to protected routes.
-  - Database (e.g., MongoDB, PostgreSQL, or MySQL): Stores user data, posts, and comments.
-- **Frontend**
-  - Vite React: A fast build tool for developing the frontend.
-  - React Router: Manages routing between authentication, home, and profile pages.
-  - State Management (e.g., Context API, Redux): Manages user state.
+- **Frontend and Backend on Cloud Run**
 
-## Local Development
+  - The frontend (built using Vite React) and the backend (built with Node.js & Express) are containerized and deployed on Google Cloud Run.
+  - Cloud Run allows both services to scale automatically, and they are managed as serverless containers.
 
-Clone the repository
+- **API Gateway with Cloud Run**
+  - Both services are available through their respective endpoints, with the frontend serving static files and the backend exposing APIs.
 
-```bash
-git clone https://github.com/STaninnat/js_post_nest
-cd js_post_nest
-```
+## Deployment Process
 
-Set up the backend
+- **Frontend Deployment (Cloud Run)**
 
-```bash
-cd backend
-npm install
-```
+  - The frontend files are built and containerized using Docker, and then deployed to Cloud Run.
+  - Cloud Run manages the scaling of the frontend automatically based on incoming traffic.
 
-Configure environment variables. Copy the .env.example file to .env and fill in the values. You'll need to update values in the .env file to match your configuration.
+- **Backend Deployment (Cloud Run)**
+  - The backend is also containerized and deployed to Cloud Run, with automatic scaling and API management handled by Cloud Run.
+  - Knex migrations are executed when the backend container is initialized.
 
-```bash
-cp .env.example .env
-```
+## Files to Note
 
-Start the backend server:
+- Frontend: Dockerfile in /frontend/Dockerfile for containerizing the frontend.
+- Backend: Dockerfile in /backend/Dockerfile for containerizing the backend.
+- Cloud Run: The cd.yml GitHub Actions pipeline will manage building and deploying both services to Cloud Run.
 
-```bash
-npm start
-```
+## CI/CD Configuration (GitHub Actions)
 
-Set up the frontend
+The GitHub Actions pipeline handles the deployment for both frontend and backend to Google Cloud Run. The pipeline will:
 
-```bash
-cd frontend
-npm install
-```
-
-Start the frontend server:
-
-```bash
-npm run dev
-```
-
-## API Endpoints (Backend)
-
-| Method | Endpoint                  | Description                  |
-| ------ | ------------------------- | ---------------------------- |
-| POST   | /v1/user/signup           | Create a new user            |
-| POST   | /v1/user/signin           | User login                   |
-| POST   | /v1/user/refresh-key      | Refresh authentication token |
-| GET    | /v1/user/auth/info        | Get user profile             |
-| POST   | /v1/user/auth/signout     | User logout                  |
-| GET    | /v1/user/auth/allposts    | Fetch all posts              |
-| GET    | /v1/user/auth/userposts   | Fetch user's own posts       |
-| POST   | /v1/user/auth/posts       | Create a new post            |
-| POST   | /v1/user/auth/editposts   | Edit a post                  |
-| DELETE | /v1/user/auth/deleteposts | Delete a post                |
-| POST   | /v1/user/auth/comments    | Add a comment to a post      |
-| GET    | /v1/user/auth/comments    | Fetch comments for a post    |
+1. Build and deploy the frontend to Cloud Run.
+2. Build and deploy the backend to Cloud Run.
 
 ## Notes
 
-- Ensure that the correct `.env` configurations are set up before running the project.
-- Modify `DATABASE_URL` based on the chosen database solution.
+- Make sure the Google Cloud Project is properly configured with Cloud Run and Cloud SQL enabled.
+- Ensure the correct .env configurations are set up for both frontend and backend services.
+- The frontend and backend containers will automatically scale based on traffic.
