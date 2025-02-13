@@ -1,8 +1,6 @@
-# PostNest
+# PostNest - 2 Cloud Provider Deployment (Frontend on AWS S3, Backend on GKE)
 
-![code coverage badge](https://github.com/STaninnat/js_post_nest/actions/workflows/ci.yml/badge.svg)
-
-This project uses Node.js with Express for the backend and Vite React for the frontend, handling user authentication, posts, and comments.
+This branch demonstrates an architecture where the frontend is hosted on AWS S3 and the backend is hosted on Google Kubernetes Engine (GKE).
 
 ## Features
 
@@ -25,77 +23,71 @@ This project uses Node.js with Express for the backend and Vite React for the fr
   - Home page for creating posts and comments.
   - Profile page to display user details and their posts.
 
-## Installation and Tools Used
+## Architecture
 
-- **Backend**
-  - Node.js & Express: The core framework for handling API requests.
-  - JWT: Used for authentication and token management.
-  - Middleware for Authentication: Ensures secure access to protected routes.
-  - Database (e.g., MongoDB, PostgreSQL, or MySQL): Stores user data, posts, and comments.
-- **Frontend**
-  - Vite React: A fast build tool for developing the frontend.
-  - React Router: Manages routing between authentication, home, and profile pages.
-  - State Management (e.g., Context API, Redux): Manages user state.
+- **Frontend: AWS S3**
 
-## Local Development
+  - The frontend application (Vite React) is built and uploaded to an AWS S3 bucket for hosting. This ensures that the frontend is globally accessible with fast delivery via S3.
+  - CI/CD: The frontend is built and uploaded to S3 automatically using GitHub Actions.
 
-Clone the repository
+- **Backend: Google Kubernetes Engine (GKE)**
+  - The backend is deployed on Google Kubernetes Engine (GKE), leveraging Kubernetes for container orchestration.
+  - CI/CD: The backend is built using Google Cloud Build and deployed with kubectl commands to GKE, with Ingress and LoadBalancer for routing and managing traffic.
 
-```bash
-git clone https://github.com/STaninnat/js_post_nest
-cd js_post_nest
-```
+## Key Changes in This Branch
 
-Set up the backend
+1. Frontend (AWS S3 Hosting)
 
-```bash
-cd backend
-npm install
-```
+   - The frontend is built using npm run build and then synced with an AWS S3 bucket using the AWS CLI.
 
-Configure environment variables. Copy the .env.example file to .env and fill in the values. You'll need to update values in the .env file to match your configuration.
+2. Backend (GKE Hosting)
+   - The backend is containerized and deployed using Kubernetes on GKE.
+   - Deployment is managed via kubectl with configuration files for deployment, service, ingress, and managed certificates.
 
-```bash
-cp .env.example .env
-```
+## Deployment Process
 
-Start the backend server:
+- **Frontend Deployment (AWS S3)**
 
-```bash
-npm start
-```
+  - The frontend files are built and uploaded to AWS S3.
+  - A GitHub Action pipeline automatically handles building and syncing the /dist directory with the S3 bucket.
 
-Set up the frontend
+- **Backend Deployment (Google Kubernetes Engine)**
+  - The backend is built using Google Cloud Build and deployed using kubectl to GKE.
+  - GKE clusters are configured to use Ingress with a LoadBalancer for traffic routing.
+  - Managed certificates are applied for secure communication.
 
-```bash
-cd frontend
-npm install
-```
+## Files to Note
 
-Start the frontend server:
+- Frontend: /frontend/dist (built files uploaded to AWS S3).
+- Backend: Kubernetes manifests in /k8s (includes deployment.yaml, service.yaml, ingress.yaml, managed-cert.yaml).
+
+## CI/CD Configuration (GitHub Actions)
+
+The GitHub Actions pipeline handles the deployment for both frontend and backend. The pipeline will:
+
+1. Build and deploy the frontend to AWS S3.
+2. Build and deploy the backend to GKE.
 
 ```bash
-npm run dev
+# Example: Frontend Deployment to AWS S3
+- name: Build Frontend and Upload to S3
+  run: |
+  cd frontend
+  npm install
+  npm run build
+  aws s3 sync ./dist s3://<YOUR_S3_BUCKET_NAME> --delete
+
+# Example: Backend Deployment to GKE
+- name: Deploy Backend to GKE
+  run: |
+  kubectl apply -f k8s/backend-deployment.yaml
+  kubectl apply -f k8s/backend-service.yaml
+  kubectl apply -f k8s/backend-ingress.yaml
+  kubectl apply -f k8s/managed-cert.yaml
 ```
-
-## API Endpoints (Backend)
-
-| Method | Endpoint                  | Description                  |
-| ------ | ------------------------- | ---------------------------- |
-| POST   | /v1/user/signup           | Create a new user            |
-| POST   | /v1/user/signin           | User login                   |
-| POST   | /v1/user/refresh-key      | Refresh authentication token |
-| GET    | /v1/user/auth/info        | Get user profile             |
-| POST   | /v1/user/auth/signout     | User logout                  |
-| GET    | /v1/user/auth/allposts    | Fetch all posts              |
-| GET    | /v1/user/auth/userposts   | Fetch user's own posts       |
-| POST   | /v1/user/auth/posts       | Create a new post            |
-| POST   | /v1/user/auth/editposts   | Edit a post                  |
-| DELETE | /v1/user/auth/deleteposts | Delete a post                |
-| POST   | /v1/user/auth/comments    | Add a comment to a post      |
-| GET    | /v1/user/auth/comments    | Fetch comments for a post    |
 
 ## Notes
 
-- Ensure that the correct `.env` configurations are set up before running the project.
-- Modify `DATABASE_URL` based on the chosen database solution.
+- Ensure the correct .env configurations are set up for the backend deployment.
+- The frontend is hosted on AWS S3, so make sure the S3 Bucket is configured properly for static file serving.
+- The backend is deployed on GKE and should have the correct Kubernetes configurations in the /k8s directory.

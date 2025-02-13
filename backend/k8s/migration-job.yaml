@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migration-job
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: <YOUR_SERVICE_ACCOUNT>
+      containers:
+        - name: migration
+          image: <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>:latest
+          command: ["npx", "knex", "migrate:latest", "--env=production"]
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/var/secrets/google/key.json"
+          volumeMounts:
+            - name: google-cloud-key
+              mountPath: "/var/secrets/google"
+              readOnly: true
+      volumes:
+        - name: google-cloud-key
+          secret:
+            secretName: gcp-sa-key

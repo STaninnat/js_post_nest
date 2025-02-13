@@ -12,7 +12,7 @@ jobs:
 
     # -----env mockup-----
     # env:
-    #  PROJECT_ID: ${{ secrets.DATABASE_URL }}
+    #  DATABASE_URL: ${{ secrets.DATABASE_URL }}
     # --------------------
 
     steps:
@@ -40,30 +40,51 @@ jobs:
       # - name: Build and Push Backend Image
       #   run: gcloud builds submit --tag <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>/<TAG> ./backend
 
-      # #  Build & Push Frontend
-      # - name: Build and Push Frontend Image
-      #   run: gcloud builds submit --tag <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>/<TAG> ./frontend
+      # - name: Configure kubectl
+      #   run: gcloud container clusters get-credentials my-cluster --region <REGION> --project <PROJECT_ID>
 
-      # - name: Run Migrations
-      #   run: npx knex migrate:latest --env=production
-
-      # # Deploy Backend
-      # - name: Deploy Backend to Cloud Run
+      # - name: Deploy to GKE
       #   run: |
-      #     gcloud run deploy backend-service \
-      #       --image <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>/<TAG> \
-      #       --region <REGION> \
-      #       --platform=managed \
-      #       --allow-unauthenticated \
-      #       --max-instances=<MAX_INSTANCES> \
-      #       --add-cloudsql-instances=$INSTANCE_CONNECTION_NAME \
-      #       --set-secrets="DB_USER=DB_USER:latest,DB_PASSWORD=DB_PASSWORD:latest,DB_NAME=DB_NAME:latest"
+      #     kubectl apply -f k8s/backend-deployment.yaml
+      #     kubectl apply -f k8s/backend-service.yaml
+      #     kubectl apply -f k8s/backend-ingress.yaml
+      #     kubectl apply -f k8s/managed-cert.yaml
 
-      # # Deploy Frontend
-      # - name: Deploy Frontend to Cloud Run
+      # ----------EXAMPLE FOR ONE POD----------
+      # - name: Run Migrations in Backend Pod
       #   run: |
-      #     gcloud run deploy frontend-service \
-      #       --image <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPOSITORY_NAME>/<IMAGE_NAME>/<TAG> \
-      #       --region <REGION> \
-      #       --platform=managed \
-      #       --allow-unauthenticated
+      #     BACKEND_POD=$(kubectl get pod -l app=backend -o jsonpath="{.items[0].metadata.name}")
+      #     kubectl exec -it $BACKEND_POD -- npx knex migrate:latest --env=production
+
+      #  ----------EXAMPLE FOR > ONE POD----------
+      # - name: Run Migrations in Backend Pod
+      #   run: |
+      #     BACKEND_POD=$(kubectl get pod -l app=backend -o jsonpath="{.items[?(@.status.containerStatuses[0].ready==true)].metadata.name}" | head -n 1)
+      #     kubectl exec -it $BACKEND_POD -- npx knex migrate:latest --env=production
+      # ----------OR----------
+      # - name: Run Migrations using Kubernetes Job
+      #   run: |
+      #     kubectl delete job migration-job --ignore-not-found=true
+      #     kubectl apply -f k8s/migration-job.yaml
+      #     kubectl wait --for=condition=complete job/migration-job --timeout=300s
+
+      # - name: Verify Deployment
+      #   run: kubectl rollout status deployment backend
+
+      # - name: Build Frontend
+      #   run: |
+      #     cd frontend
+      #     npm install
+      #     npm run build
+
+      # - name: Set up AWS CLI
+      #   run: # |
+      #     # ----------KEY mockup----------
+      #     # aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     # aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     # ------------------------------
+      #     aws configure set region <AWS_REGION>
+
+      # - name: Upload Frontend to S3
+      #   run: |
+      #     aws s3 sync ./frontend/dist s3://<YOUR_BUCKET_NAME> --delete
